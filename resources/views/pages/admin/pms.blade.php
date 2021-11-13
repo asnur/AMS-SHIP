@@ -9,7 +9,8 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">PMS</h1>
             {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                    class="fas fa-plus fa-sm text-white-50"></i> Create New TaskJob</a> --}}
+                    class="fas fa-plus fa-sm text-white-50" data-toggle="modal" data-target="#add"></i> Create New
+                TaskJob</a> --}}
             {{-- <input type="datetime-local"> --}}
         </div>
 
@@ -157,13 +158,18 @@
                                                 <td>{!! $u->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('open-pms') }}" method="POST">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <input type="hidden" name="id" value="{{ $u->id }}">
-                                                        <button class="btn btn-sm btn-success" type="submit"><i
-                                                                class="fa fa-play"></i></button>
-                                                    </form>
+                                                    @if ($u->group->group_inventory == '')
+                                                        <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-cogs"
+                                                                data-toggle="modal" data-target="#assignInventory"></i></a>
+                                                    @else
+                                                        <form action="{{ route('open-pms') }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="id" value="{{ $u->id }}">
+                                                            <button class="btn btn-sm btn-success" type="submit"><i
+                                                                    class="fa fa-play"></i></button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

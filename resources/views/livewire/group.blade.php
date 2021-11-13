@@ -3,7 +3,7 @@ $no = 1;
 ?>
 
 <div>
-    <input type="hidden" id="selectedValueGroup" name="group">
+    <input type="text" id="selectedValueGroup" name="group" class="d-none">
     <div class="row">
         <div class="col-4" wire:ignore>
             <label class="font-weight-bold">Main Group</label>
@@ -55,10 +55,11 @@ $no = 1;
             </select>
         </div>
 
-        <div class="col-6 mt-3" wire:ignore>
+        <div class="col-12 mt-3" wire:ignore>
             <label class="font-weight-bold">Group Inventory</label>
             {{-- {{ $selectedInventoryGroup }} --}}
-            <select class="form-control" id="selectedInventoryGroup" style="width: 100% !important" name="id_group">
+            <select class="form-control" id="selectedInventoryGroup" style="width: 100% !important" name="id_group"
+                required>
                 <option value=""> --- Choose Group Inventory --- </option>
                 @foreach ($inventory_group as $ig)
                     <option value="{{ $ig->id }}">{{ $ig->name }}</option>
@@ -66,10 +67,25 @@ $no = 1;
             </select>
         </div>
 
-        <div class="col-6 mt-3">
-            <label class="font-weight-bold">Quantity</label>
-            {{-- {{ $qty }} --}}
-            <input type="number" wire:model="qty" class="form-control" placeholder="Input Quantity Item" name="qty">
+        <div class="col-3 mt-3">
+            <label class="font-weight-bold">Installed Qty</label>
+            <input type="number" class="form-control" placeholder="Input Quantity Installed Item" name="installed">
+        </div>
+        <div class="col-3 mt-3">
+            <label class="font-weight-bold">Used Qty</label>
+            <input type="number" class="form-control" placeholder="Input Quantity Used Item" name="used">
+        </div>
+        <div class="col-3 mt-3">
+            <label class="font-weight-bold">Reserved Qty</label>
+            <input type="number" class="form-control" placeholder="Input Quantity Reserved Item" name="reserved">
+        </div>
+        <div class="col-3 mt-3">
+            <label class="font-weight-bold">Ready Qty</label>
+            <input type="number" class="form-control" placeholder="Input Quantity Ready Item" name="ready">
+        </div>
+        <div class="col-12 mt-3">
+            <label class="font-weight-bold">Note</label>
+            <textarea class="form-control" placeholder="Input Note for Item" name="note" rows="6"></textarea>
         </div>
     </div>
 </div>

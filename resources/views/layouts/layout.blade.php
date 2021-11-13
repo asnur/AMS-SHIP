@@ -1353,6 +1353,158 @@
                 $box.prop("checked", false);
             }
         });
+
+        function previewItem(id_group) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('list-inventory') }}",
+                data: {
+                    id_group: id_group
+                },
+                success: function(res) {
+                    console.log(res);
+                    $('.listInventory').html("")
+                    var html = `
+                    <table class="table table-striped w-100" id="table-listinventory">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="vertical-align: middle">No</th>
+                                    <th rowspan="2" style="vertical-align: middle">Item</th>
+                                    <th colspan="4" style="text-align:center">Inventory</th>
+                                    <th rowspan="2" style="vertical-align: middle">Note</th>
+                                </tr>
+                                <tr>
+                                    <th>Installed</th>
+                                    <th>Used</th>
+                                    <th>Reserved</th>
+                                    <th>Ready Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `
+                    for (let index = 0; index < res.length; index++) {
+                        html += `
+                        <tr>
+                            <td>${index+1}</td>
+                            <td>${res[index].id_item}-${res[index].group.name}</td>
+                            <td>${(res[index].installed == null) ? 0 : res[index].installed}</td>
+                            <td>${(res[index].used == null) ? 0 : res[index].used}</td>
+                            <td>${(res[index].reserved == null) ? 0 : res[index].reserved}</td>
+                            <td>${(res[index].ready == null) ? 0 : res[index].ready}</td>
+                            <td>${res[index].note}</td>
+                        </tr>
+                        `;
+                    }
+
+                    html += `
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th rowspan="2" style="vertical-align: middle">No</th>
+                                    <th rowspan="2" style="vertical-align: middle">Item</th>
+                                    <th>Installed</th>
+                                    <th>Used</th>
+                                    <th>Reserved</th>
+                                    <th>Ready Stock</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:center">Inventory</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    `
+
+                    $('.listInventory').html(html)
+
+                    $('#table-listinventory').DataTable({
+                        responsive: true,
+                    });
+                }
+            })
+        }
+
+        function editInventory(id_group) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('list-inventory') }}",
+                data: {
+                    id_group: id_group
+                },
+                success: function(res) {
+                    console.log(res);
+                    $('.editListInventory').html("")
+                    var html = `
+                    <input type="text" name="id_group" class="d-none" value="${id_group}">
+                    <table class="table table-striped w-100" id="table-editlistinventory">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="vertical-align: middle">No</th>
+                                    <th rowspan="2" style="vertical-align: middle">Item</th>
+                                    <th colspan="4" style="text-align:center">Inventory</th>
+                                    <th rowspan="2" style="vertical-align:middle">Note</th>
+                                </tr>
+                                <tr>
+                                    <th>Installed</th>
+                                    <th>Used</th>
+                                    <th>Reserved</th>
+                                    <th>Ready Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `
+                    for (let index = 0; index < res.length; index++) {
+                        html += `
+                        <tr>
+                            <td>${index+1}</td>
+                            <td>
+                                ${res[index].id_item}-${res[index].group.name}
+                                <input type="text" name="id_item[]" class="d-none" value="${res[index].id_item}">
+                            </td>
+                            <td>
+                                <input type="number" name="installed[]" class="form-control" value="${(res[index].installed == null) ? 0 : res[index].installed}">
+                            </td>
+                            <td>
+                                <input type="number" name="used[]" class="form-control" value="${(res[index].used == null) ? 0 : res[index].used}">
+                            </td>
+                            <td>
+                                <input type="number" name="reserved[]"" class="form-control" value="${(res[index].reserved == null) ? 0 : res[index].reserved}">
+                            </td>
+                            <td>
+                                <input type="number" name="ready[]" class="form-control" value="${(res[index].ready == null) ? 0 : res[index].ready}">
+                            </td>
+                            <td>
+                                <textarea class="form-control" name="note[]" rows="6">${res[index].note}</textarea>
+                            </td>
+                        </tr>
+                        `;
+                    }
+
+                    html += `
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th rowspan="2" style="vertical-align: middle">No</th>
+                                    <th rowspan="2" style="vertical-align: middle">Item</th>
+                                    <th>Installed</th>
+                                    <th>Used</th>
+                                    <th>Reserved</th>
+                                    <th>Ready Stock</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:center">Inventory</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    `
+
+                    $('.editListInventory').html(html)
+
+                    $('#table-editlistinventory').DataTable({
+                        responsive: true,
+                    });
+                }
+            })
+        }
     </script>
     @stack('group_inventory')
 

@@ -16,7 +16,7 @@ class PMSController extends Controller
         $upcoming = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'upcoming')->get();
         $ongoing = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'ongoing')->get();
         $finished = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'finished')->get();
-        // ddd($ongoing);
+        // ddd($upcoming);
         return view('pages.admin.pms', compact(['ongoing', 'upcoming', 'finished']));
     }
 

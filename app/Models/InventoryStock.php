@@ -11,4 +11,9 @@ class InventoryStock extends Model
     protected $table = 'inventory_stock';
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function group()
+    {
+        return $this->hasOne(Group::class, 'kode', 'id_item');
+    }
 }

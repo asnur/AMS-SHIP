@@ -10,6 +10,7 @@ use App\Http\Controllers\SyncronizeController;
 use App\Http\Controllers\TaskjobController;
 use App\Http\Controllers\TaskjobGroupController;
 use App\Http\Controllers\UserController;
+use App\Models\InventoryStock;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
@@ -93,6 +94,8 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::patch('/edit-group-inventory', [InventoryController::class, 'edit_group'])->name('edit-group-inventory');
     Route::delete('/delete-group-inventory', [InventoryController::class, 'delete_group'])->name('delete-group-inventory');
     Route::patch('/assign-inventory', [InventoryController::class, 'assign_inventory'])->name('assign-inventory');
+    Route::get('/list-item', [InventoryController::class, 'list_inventory'])->name('list-inventory');
+    Route::put('/edit-inventory', [InventoryController::class, 'edit_inventory'])->name('edit-inventory');
 });
 
 Auth::routes();

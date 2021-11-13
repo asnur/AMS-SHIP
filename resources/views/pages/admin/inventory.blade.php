@@ -2,6 +2,7 @@
 @section('content')
     @php
     $no = 1;
+    $no_group = 1;
     @endphp
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -27,19 +28,44 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body listInventory">
 
                     </div>
                 </div>
             </div>
         </div>
 
+        <form action="{{ route('edit-inventory') }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal fade" id="editInventory" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="exampleModalLabel">Edit Inventory</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body editListInventory">
+
+                        </div>
+                        <div class="modal-footer bg-primary">
+                            <button type="submit" class="btn btn-md btn-success"><i class="fa fa-paper-plane"></i>
+                                Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <form action="{{ route('assign-inventory') }}" method="POST">
             @csrf
             @method('PATCH')
             <div class="modal fade" id="assignGroupInventory" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title" id="exampleModalLabel">Assign Group Inventory</h5>
@@ -157,12 +183,10 @@
                                                         onclick="previewItem({{ $ig->id }})"
                                                         data-target="#previewInventory" data-toggle="modal"><i
                                                             class="fa fa-eye"></i></a>
-                                                    <a class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                                    <form action="" method="POST" class="d-inline">
-                                                        <input type="hidden" name="id" value="{{ $ig->id }}">
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                                class="fa fa-trash"></i></button>
-                                                    </form>
+                                                    <a class="btn btn-sm btn-primary"
+                                                        onclick="editInventory({{ $ig->id }})"
+                                                        data-target="#editInventory" data-toggle="modal"><i
+                                                            class="fa fa-edit"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -202,7 +226,7 @@
                                     <tbody>
                                         @foreach ($inventory_group as $ig)
                                             <tr>
-                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $no_group++ }}</td>
                                                 <td>{{ $ig->name }}</td>
                                                 <td>
                                                     <a class="btn btn-sm btn-primary"
