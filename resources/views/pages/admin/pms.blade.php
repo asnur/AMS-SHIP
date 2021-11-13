@@ -158,7 +158,7 @@
                                                 <td>{!! $u->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>
                                                 <td>
-                                                    @if ($u->group->group_inventory == '')
+                                                    @if ($u->assign_inventory == '')
                                                         <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-cogs"
                                                                 data-toggle="modal" data-target="#assignInventory"></i></a>
                                                     @else
