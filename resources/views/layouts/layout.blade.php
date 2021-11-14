@@ -392,7 +392,7 @@
         @if (Request::segment(2) == 'taskjob')
             var list_taskjob = $('#table-listtaskjob').DataTable();
             $("#table-listtaskjob_filter.dataTables_filter").append($("#categoryFilter"));
-        
+
             var categoryIndex = 0;
             $("#table-listtaskjob th").each(function(i) {
             if ($($(this)).html() == "Status") {
@@ -400,7 +400,7 @@
             return false;
             }
             });
-        
+
             $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
             var selectedItem = $('#categoryFilter').val()
@@ -411,24 +411,24 @@
             return false;
             }
             );
-        
+
             $("#categoryFilter").val(Cookies.get('filter_status'))
-        
+
             $("#categoryFilter").change(function(e) {
             list_taskjob.draw();
             Cookies.set('filter_status', $(this).val(), {
             expires: 1
             })
-        
+
             });
-        
+
             list_taskjob.draw();
         @endif
 
         @if (Request::segment(2) == 'PMS')
             var upcoming_taskjob = $('#table-listtaskjob-upcoming').DataTable();
             $("#table-listtaskjob-upcoming_filter.dataTables_filter").append($("#categoryFilterUpcoming"));
-        
+
             var categoryIndexUpcoming = 0;
             $("#table-listtaskjob-upcoming th").each(function(i) {
             if ($($(this)).html() == "Status") {
@@ -436,7 +436,7 @@
             return false;
             }
             });
-        
+
             $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
             var selectedItem = $('#categoryFilterUpcoming').val()
@@ -447,22 +447,22 @@
             return false;
             }
             );
-        
+
             $("#categoryFilterUpcoming").val(Cookies.get('filter_status_upcoming'))
-        
+
             $("#categoryFilterUpcoming").change(function(e) {
             upcoming_taskjob.draw();
             Cookies.set('filter_status_upcoming', $(this).val(), {
             expires: 1
             })
-        
+
             });
-        
+
             upcoming_taskjob.draw();
-        
+
             var ongoing_taskjob = $('#table-listtaskjob-ongoing').DataTable();
             $("#table-listtaskjob-ongoing_filter.dataTables_filter").append($("#categoryFilterOngoing"));
-        
+
             var categoryIndexOngoing = 0;
             $("#table-listtaskjob-ongoing th").each(function(i) {
             if ($($(this)).html() == "Status") {
@@ -470,7 +470,7 @@
             return false;
             }
             });
-        
+
             $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
             var selectedItem = $('#categoryFilterOngoing').val()
@@ -481,22 +481,22 @@
             return false;
             }
             );
-        
+
             $("#categoryFilterOngoing").val(Cookies.get('filter_status_ongoing'))
-        
+
             $("#categoryFilterOngoing").change(function(e) {
             ongoing_taskjob.draw();
             Cookies.set('filter_status_ongoing', $(this).val(), {
             expires: 1
             })
-        
+
             });
-        
+
             ongoing_taskjob.draw();
-        
+
             var finished_taskjob = $('#table-listtaskjob-finished').DataTable();
             $("#table-listtaskjob-finished_filter.dataTables_filter").append($("#categoryFilterFinished"));
-        
+
             var categoryIndexFinished = 0;
             $("#table-listtaskjob-finished th").each(function(i) {
             if ($($(this)).html() == "Status") {
@@ -504,7 +504,7 @@
             return false;
             }
             });
-        
+
             $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
             var selectedItem = $('#categoryFilterFinished').val()
@@ -515,17 +515,17 @@
             return false;
             }
             );
-        
+
             $("#categoryFilterFinished").val(Cookies.get('filter_status_finished'))
-        
+
             $("#categoryFilterFinished").change(function(e) {
             finished_taskjob.draw();
             Cookies.set('filter_status_finished', $(this).val(), {
             expires: 1
             })
-        
+
             });
-        
+
             finished_taskjob.draw();
         @endif
 
@@ -578,369 +578,369 @@
         // $("#part_list").chained("#component_list");
 
 
-        $('#filter').on('click', function() {
-            var main_group = $("#main_group_list").val();
-            var group = $("#group_list").val();
-            var sub_group = $("#sub_group_list").val();
-            var unit = $("#unit_list").val();
-            var component = $("#component_list").val();
-            var part = $("#part_list").val();
-            var data = {
-                'main_group': main_group,
-                'group': group,
-                'sub_group': sub_group,
-                'unit': unit,
-                'component': component,
-                'part': part
-            };
+        // $('#filter').on('click', function() {
+        //     var main_group = $("#main_group_list").val();
+        //     var group = $("#group_list").val();
+        //     var sub_group = $("#sub_group_list").val();
+        //     var unit = $("#unit_list").val();
+        //     var component = $("#component_list").val();
+        //     var part = $("#part_list").val();
+        //     var data = {
+        //         'main_group': main_group,
+        //         'group': group,
+        //         'sub_group': sub_group,
+        //         'unit': unit,
+        //         'component': component,
+        //         'part': part
+        //     };
 
-            console.log(main_group, group, sub_group, unit, component, part);
-
-
-            $.ajax({
-                type: 'get',
-                url: "/admin/detail-group",
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    let data = response;
-                    var data_group = '';
-                    var data_sub_group = '';
-                    var data_unit = '';
-                    var data_component = '';
-                    var data_part = '';
-
-                    $.each(data.group, function(i, obj) {
-                        data_group += `
-                            <tr>
-                                    <td>${i+1}</td>
-                                    <td>${obj.kode}</td>
-                                    <td>${obj.name}</td>
-                                    <td>${obj.spek}</td>
-                                </tr>
-                            `;
-                    });
-
-                    $.each(data.sub_group, function(i, obj) {
-                        data_sub_group += `
-                            <tr>
-                                    <td>${i+1}</td>
-                                    <td>${obj.kode}</td>
-                                    <td>${obj.name}</td>
-                                    <td>${obj.spek}</td>
-                                </tr>
-                            `;
-                    });
-
-                    $.each(data.unit, function(i, obj) {
-                        data_unit += `
-                            <tr>
-                                    <td>${i+1}</td>
-                                    <td>${obj.kode}</td>
-                                    <td>${obj.name}</td>
-                                    <td>${obj.spek}</td>
-                                    <td>${obj.inspection}</td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editUnit(${obj.kode})" data-toggle="modal" data-target="#editUnit"><i class="fa fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            `;
-
-                    });
-
-                    $.each(data.component, function(i, obj) {
-                        data_component += `
-                            <tr>
-                                    <td>${i+1}</td>
-                                    <td>${obj.kode}</td>
-                                    <td>${obj.name}</td>
-                                    <td>${obj.spek}</td>
-                                    <td>${obj.inspection}</td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editComponent(${obj.kode})" data-toggle="modal" data-target="#editComponent"><i class="fa fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            `;
-                    });
-                    $.each(data.part, function(i, obj) {
-                        data_part += `
-                            <tr>
-                                    <td>${i+1}</td>
-                                    <td>${obj.kode}</td>
-                                    <td>${obj.name}</td>
-                                    <td>${obj.spek}</td>
-                                    <td>${obj.inspection}</td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editPart(${obj.kode})" data-toggle="modal" data-target="#editPart"><i class="fa fa-edit"></i></a>    
-                                        <a class="btn btn-sm btn-warning text-white" href="/admin/detail-sub-part/${obj.kode}"><i class="fa fa-eye"></i></a>    
-                                    </td>
-                                </tr>
-                            `;
-                    });
+        //     console.log(main_group, group, sub_group, unit, component, part);
 
 
-                    const html =
-                        `
-        <form action="/admin/updateUnit" method="POST">
-        @csrf
-        <div class="modal fade bd-example-modal-lg" id="editUnit" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h4>Edit Unit</h4>    
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="font-weight-bold">Code</label>
-                    <input type="text" readonly class="form-control" name="kode" id="kode_unit">
-                    <label class="font-weight-bold mt-3">Name</label>
-                    <input type="text" readonly class="form-control" name="nama" id="nama_unit">
-                    <label class="font-weight-bold mt-3">Spesification</label>
-                    <textarea type="text" class="form-control" id="spek_unit" name="spek"></textarea>
-                    <label class="font-weight-bold mt-3">Inspection</label>
-                    <textarea type="text" class="form-control" name="inspection" id="inspection_unit"></textarea>
-                </div>
-                <div class="modal-footer bg-primary">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
-                </div>
-            </div>
-        </div>
-        </div>
-        </form>
+        //     $.ajax({
+        //         type: 'get',
+        //         url: "/admin/detail-group",
+        //         data: data,
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             let data = response;
+        //             var data_group = '';
+        //             var data_sub_group = '';
+        //             var data_unit = '';
+        //             var data_component = '';
+        //             var data_part = '';
 
-        <form action="/admin/updateComponent" method="POST">
-        @csrf
-        <div class="modal fade bd-example-modal-lg" id="editComponent" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h4>Edit Component</h4>   
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="font-weight-bold">Code</label>
-                    <input type="text" readonly class="form-control" name="kode" id="kode_component">
-                    <label class="font-weight-bold mt-3">Name</label>
-                    <input type="text" readonly class="form-control" name="nama" id="nama_component">
-                    <label class="font-weight-bold mt-3">Spesification</label>
-                    <textarea type="text" class="form-control" id="spek_component" name="spek"></textarea>
-                    <label class="font-weight-bold mt-3">Inspection</label>
-                    <textarea type="text" class="form-control" name="inspection" id="inspection_component"></textarea>
-                </div>
-                <div class="modal-footer bg-primary">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
-                </div>
-            </div>
-        </div>
-        </div>
-        </form>
+        //             $.each(data.group, function(i, obj) {
+        //                 data_group += `
+        //                     <tr>
+        //                             <td>${i+1}</td>
+        //                             <td>${obj.kode}</td>
+        //                             <td>${obj.name}</td>
+        //                             <td>${obj.spek}</td>
+        //                         </tr>
+        //                     `;
+        //             });
 
-        <form action="/admin/updatePart" method="POST">
-        @csrf
-        <div class="modal fade bd-example-modal-lg" id="editPart" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h4>Edit Part</h4>    
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="font-weight-bold">Code</label>
-                    <input type="text" readonly class="form-control" name="kode" id="kode_part">
-                    <label class="font-weight-bold mt-3">Name</label>
-                    <input type="text" readonly class="form-control" name="nama" id="nama_part">
-                    <label class="font-weight-bold mt-3">Spesification</label>
-                    <textarea type="text" class="form-control" id="spek_part" name="spek"></textarea>
-                    <label class="font-weight-bold mt-3">Inspection</label>
-                    <textarea type="text" class="form-control" name="inspection" id="inspection_part"></textarea>
-                </div>
-                <div class="modal-footer bg-primary">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
-                </div>
-            </div>
-        </div>
-        </div>
-        </form>
+        //             $.each(data.sub_group, function(i, obj) {
+        //                 data_sub_group += `
+        //                     <tr>
+        //                             <td>${i+1}</td>
+        //                             <td>${obj.kode}</td>
+        //                             <td>${obj.name}</td>
+        //                             <td>${obj.spek}</td>
+        //                         </tr>
+        //                     `;
+        //             });
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-bold active" id="profile-tab" data-toggle="tab" href="#group"
-                role="tab" aria-controls="profile" aria-selected="false">Group</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-bold" id="profile-tab" data-toggle="tab" href="#subgroup" role="tab"
-                aria-controls="profile" aria-selected="false">Sub Group</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-bold" id="contact-tab" data-toggle="tab" href="#unit" role="tab"
-                aria-controls="contact" aria-selected="false">Unit</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-bold" id="contact-tab" data-toggle="tab" href="#component" role="tab"
-                aria-controls="contact" aria-selected="false">Component</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-bold" id="part-tab" data-toggle="tab" href="#part" role="tab"
-                aria-controls="part" aria-selected="false">Part</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="group" role="tabpanel" aria-labelledby="profile-tab"><br>
-            <table class="table table-striped" id="table-1">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    ${data_group}
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="subgroup" role="tabpanel" aria-labelledby="profile-tab"><br>
-            <table class="table table-striped" id="table-2">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    ${data_sub_group}
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="unit" role="tabpanel" aria-labelledby="contact-tab">
-            <br>
-            <table class="table table-striped" id="table-3">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    ${data_unit}
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="component" role="tabpanel" aria-labelledby="contact-tab"><br>
-            <table class="table table-striped" id="table-4">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    ${data_component}
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="part" role="tabpanel" aria-labelledby="contact-tab"><br>
-            <table class="table table-striped" id="table-5">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Specification</th>
-                        <th>Inspection</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    ${data_part}
-                </tbody>
-            </table>
-        </div>
-    </div>
-`;
+        //             $.each(data.unit, function(i, obj) {
+        //                 data_unit += `
+        //                     <tr>
+        //                             <td>${i+1}</td>
+        //                             <td>${obj.kode}</td>
+        //                             <td>${obj.name}</td>
+        //                             <td>${obj.spek}</td>
+        //                             <td>${obj.inspection}</td>
+        //                             <td>
+        //                                 <a class="btn btn-sm btn-primary" onclick="editUnit(${obj.kode})" data-toggle="modal" data-target="#editUnit"><i class="fa fa-edit"></i></a>
+        //                             </td>
+        //                         </tr>
+        //                     `;
 
-                    $('.data-main-group').html(html);
-                    $('#table').DataTable();
-                    $('#table-1').DataTable();
-                    $('#table-2').DataTable();
-                    $('#table-3').DataTable();
-                    $('#table-4').DataTable();
-                    $('#table-5').DataTable();
+        //             });
 
-                    $('#spek').summernote({
-                        tabsize: 2,
-                        height: 100
-                    });
-                    $('#inspection').summernote({
-                        tabsize: 2,
-                        height: 100
-                    });
-                }
-            })
-        });
+        //             $.each(data.component, function(i, obj) {
+        //                 data_component += `
+        //                     <tr>
+        //                             <td>${i+1}</td>
+        //                             <td>${obj.kode}</td>
+        //                             <td>${obj.name}</td>
+        //                             <td>${obj.spek}</td>
+        //                             <td>${obj.inspection}</td>
+        //                             <td>
+        //                                 <a class="btn btn-sm btn-primary" onclick="editComponent(${obj.kode})" data-toggle="modal" data-target="#editComponent"><i class="fa fa-edit"></i></a>
+        //                             </td>
+        //                         </tr>
+        //                     `;
+        //             });
+        //             $.each(data.part, function(i, obj) {
+        //                 data_part += `
+        //                     <tr>
+        //                             <td>${i+1}</td>
+        //                             <td>${obj.kode}</td>
+        //                             <td>${obj.name}</td>
+        //                             <td>${obj.spek}</td>
+        //                             <td>${obj.inspection}</td>
+        //                             <td>
+        //                                 <a class="btn btn-sm btn-primary" onclick="editPart(${obj.kode})" data-toggle="modal" data-target="#editPart"><i class="fa fa-edit"></i></a>
+        //                                 <a class="btn btn-sm btn-warning text-white" href="/admin/detail-sub-part/${obj.kode}"><i class="fa fa-eye"></i></a>
+        //                             </td>
+        //                         </tr>
+        //                     `;
+        //             });
+
+
+        //             const html =
+        //                 `
+        //                 <form action="/admin/updateUnit" method="POST">
+        //                 @csrf
+        //                 <div class="modal fade bd-example-modal-lg" id="editUnit" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        //                 <div class="modal-dialog modal-lg">
+        //                     <div class="modal-content">
+        //                         <div class="modal-header bg-primary text-white">
+        //                             <h4>Edit Unit</h4>
+        //                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        //                                 <span aria-hidden="true">&times;</span>
+        //                             </button>
+        //                         </div>
+        //                         <div class="modal-body">
+        //                             <label class="font-weight-bold">Code</label>
+        //                             <input type="text" readonly class="form-control" name="kode" id="kode_unit">
+        //                             <label class="font-weight-bold mt-3">Name</label>
+        //                             <input type="text" readonly class="form-control" name="nama" id="nama_unit">
+        //                             <label class="font-weight-bold mt-3">Spesification</label>
+        //                             <textarea type="text" class="form-control" id="spek_unit" name="spek"></textarea>
+        //                             <label class="font-weight-bold mt-3">Inspection</label>
+        //                             <textarea type="text" class="form-control" name="inspection" id="inspection_unit"></textarea>
+        //                         </div>
+        //                         <div class="modal-footer bg-primary">
+        //                             <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //                 </div>
+        //                 </form>
+
+        //                 <form action="/admin/updateComponent" method="POST">
+        //                 @csrf
+        //                 <div class="modal fade bd-example-modal-lg" id="editComponent" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        //                 <div class="modal-dialog modal-lg">
+        //                     <div class="modal-content">
+        //                         <div class="modal-header bg-primary text-white">
+        //                             <h4>Edit Component</h4>
+        //                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        //                                 <span aria-hidden="true">&times;</span>
+        //                             </button>
+        //                         </div>
+        //                         <div class="modal-body">
+        //                             <label class="font-weight-bold">Code</label>
+        //                             <input type="text" readonly class="form-control" name="kode" id="kode_component">
+        //                             <label class="font-weight-bold mt-3">Name</label>
+        //                             <input type="text" readonly class="form-control" name="nama" id="nama_component">
+        //                             <label class="font-weight-bold mt-3">Spesification</label>
+        //                             <textarea type="text" class="form-control" id="spek_component" name="spek"></textarea>
+        //                             <label class="font-weight-bold mt-3">Inspection</label>
+        //                             <textarea type="text" class="form-control" name="inspection" id="inspection_component"></textarea>
+        //                         </div>
+        //                         <div class="modal-footer bg-primary">
+        //                             <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //                 </div>
+        //                 </form>
+
+        //                 <form action="/admin/updatePart" method="POST">
+        //                 @csrf
+        //                 <div class="modal fade bd-example-modal-lg" id="editPart" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        //                 <div class="modal-dialog modal-lg">
+        //                     <div class="modal-content">
+        //                         <div class="modal-header bg-primary text-white">
+        //                             <h4>Edit Part</h4>
+        //                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        //                                 <span aria-hidden="true">&times;</span>
+        //                             </button>
+        //                         </div>
+        //                         <div class="modal-body">
+        //                             <label class="font-weight-bold">Code</label>
+        //                             <input type="text" readonly class="form-control" name="kode" id="kode_part">
+        //                             <label class="font-weight-bold mt-3">Name</label>
+        //                             <input type="text" readonly class="form-control" name="nama" id="nama_part">
+        //                             <label class="font-weight-bold mt-3">Spesification</label>
+        //                             <textarea type="text" class="form-control" id="spek_part" name="spek"></textarea>
+        //                             <label class="font-weight-bold mt-3">Inspection</label>
+        //                             <textarea type="text" class="form-control" name="inspection" id="inspection_part"></textarea>
+        //                         </div>
+        //                         <div class="modal-footer bg-primary">
+        //                             <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Kirim</button>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //                 </div>
+        //                 </form>
+
+        //                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+        //                 <li class="nav-item">
+        //                     <a class="nav-link text-primary font-weight-bold active" id="profile-tab" data-toggle="tab" href="#group"
+        //                         role="tab" aria-controls="profile" aria-selected="false">Group</a>
+        //                 </li>
+        //                 <li class="nav-item">
+        //                     <a class="nav-link text-primary font-weight-bold" id="profile-tab" data-toggle="tab" href="#subgroup" role="tab"
+        //                         aria-controls="profile" aria-selected="false">Sub Group</a>
+        //                 </li>
+        //                 <li class="nav-item">
+        //                     <a class="nav-link text-primary font-weight-bold" id="contact-tab" data-toggle="tab" href="#unit" role="tab"
+        //                         aria-controls="contact" aria-selected="false">Unit</a>
+        //                 </li>
+        //                 <li class="nav-item">
+        //                     <a class="nav-link text-primary font-weight-bold" id="contact-tab" data-toggle="tab" href="#component" role="tab"
+        //                         aria-controls="contact" aria-selected="false">Component</a>
+        //                 </li>
+        //                 <li class="nav-item">
+        //                     <a class="nav-link text-primary font-weight-bold" id="part-tab" data-toggle="tab" href="#part" role="tab"
+        //                         aria-controls="part" aria-selected="false">Part</a>
+        //                 </li>
+        //             </ul>
+        //             <div class="tab-content" id="myTabContent">
+        //                 <div class="tab-pane fade show active" id="group" role="tabpanel" aria-labelledby="profile-tab"><br>
+        //                     <table class="table table-striped" id="table-1">
+        //                         <thead>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                             </tr>
+        //                         </thead>
+        //                         <tfoot>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                             </tr>
+        //                         </tfoot>
+        //                         <tbody>
+        //                             ${data_group}
+        //                         </tbody>
+        //                     </table>
+        //                 </div>
+        //                 <div class="tab-pane fade" id="subgroup" role="tabpanel" aria-labelledby="profile-tab"><br>
+        //                     <table class="table table-striped" id="table-2">
+        //                         <thead>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                             </tr>
+        //                         </thead>
+        //                         <tfoot>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                             </tr>
+        //                         </tfoot>
+        //                         <tbody>
+        //                             ${data_sub_group}
+        //                         </tbody>
+        //                     </table>
+        //                 </div>
+        //                 <div class="tab-pane fade" id="unit" role="tabpanel" aria-labelledby="contact-tab">
+        //                     <br>
+        //                     <table class="table table-striped" id="table-3">
+        //                         <thead>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </thead>
+        //                         <tfoot>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </tfoot>
+        //                         <tbody>
+        //                             ${data_unit}
+        //                         </tbody>
+        //                     </table>
+        //                 </div>
+        //                 <div class="tab-pane fade" id="component" role="tabpanel" aria-labelledby="contact-tab"><br>
+        //                     <table class="table table-striped" id="table-4">
+        //                         <thead>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </thead>
+        //                         <tfoot>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </tfoot>
+        //                         <tbody>
+        //                             ${data_component}
+        //                         </tbody>
+        //                     </table>
+        //                 </div>
+        //                 <div class="tab-pane fade" id="part" role="tabpanel" aria-labelledby="contact-tab"><br>
+        //                     <table class="table table-striped" id="table-5">
+        //                         <thead>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </thead>
+        //                         <tfoot>
+        //                             <tr>
+        //                                 <th>No</th>
+        //                                 <th>Code</th>
+        //                                 <th>Name</th>
+        //                                 <th>Specification</th>
+        //                                 <th>Inspection</th>
+        //                                 <th>Action</th>
+        //                             </tr>
+        //                         </tfoot>
+        //                         <tbody>
+        //                             ${data_part}
+        //                         </tbody>
+        //                     </table>
+        //                 </div>
+        //             </div>
+        //         `;
+
+        //             $('.data-main-group').html(html);
+        //             $('#table').DataTable();
+        //             $('#table-1').DataTable();
+        //             $('#table-2').DataTable();
+        //             $('#table-3').DataTable();
+        //             $('#table-4').DataTable();
+        //             $('#table-5').DataTable();
+
+        //             $('#spek').summernote({
+        //                 tabsize: 2,
+        //                 height: 100
+        //             });
+        //             $('#inspection').summernote({
+        //                 tabsize: 2,
+        //                 height: 100
+        //             });
+        //         }
+        //     })
+        // });
 
         function editUnit(kode) {
             $.ajax({
@@ -1158,7 +1158,7 @@
                 `;
             });
 
-            html += `        
+            html += `
                 </tbody>
             </table>
             `;
@@ -1219,7 +1219,7 @@
                 `;
             });
 
-            html += `        
+            html += `
                 </tbody>
             </table>
             `;
