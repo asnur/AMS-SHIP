@@ -1505,8 +1505,13 @@
                 }
             })
         }
+
+        $('#tableAssignInventory').dataTable({
+            responsive: true
+        });
     </script>
     @stack('group_inventory')
+    @stack('assign-inventory')
 
 </body>
 

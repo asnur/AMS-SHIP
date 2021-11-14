@@ -158,10 +158,13 @@
                                                 <td>{!! $u->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>
                                                 <td>
-                                                    @if ($u->assign_inventory == '')
-                                                        <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-cogs"
-                                                                data-toggle="modal" data-target="#assignInventory"></i></a>
-                                                    @else
+                                                    {{-- @if ($u->group->assign_inventory == null) --}}
+                                                    <a href="#" id="btnShowModal" class="btn btn-sm btn-primary"><i
+                                                            class="fa fa-cogs"
+                                                            onclick="setGroupCode({{ $u->kode }}, {{ $u->group->assign_inventory }})"
+                                                            data-toggle="modal" data-target="#assignInventory"></i></a>
+                                                    @livewire('assign-inventory-p-m-s')
+                                                    {{-- @else
                                                         <form action="{{ route('open-pms') }}" method="POST">
                                                             @csrf
                                                             @method('PATCH')
@@ -169,7 +172,7 @@
                                                             <button class="btn btn-sm btn-success" type="submit"><i
                                                                     class="fa fa-play"></i></button>
                                                         </form>
-                                                    @endif
+                                                    @endif --}}
                                                 </td>
                                             </tr>
                                         @endforeach
