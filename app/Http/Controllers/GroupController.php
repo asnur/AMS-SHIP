@@ -24,25 +24,6 @@ class GroupController extends Controller
         return view('pages.admin.group', compact(['main_group', 'group', 'sub_group', 'unit', 'component', 'part']));
     }
 
-    public function detail(Request $request)
-    {
-        $kode1 = $request->input('main_group');
-        $kode2 = $request->input('group');
-        $kode3 = $request->input('sub_group');
-        $kode4 = $request->input('unit');
-        $kode5 = $request->input('component');
-        $kode6 = $request->input('part');
-        $group = DB::table('group')->where('kode1', $kode1)->whereRaw('LENGTH(kode) = 2')->get();
-        $sub_group = DB::table('group')->where('kode2', $kode2)->whereRaw('LENGTH(kode) = 3')->get();
-        $unit = DB::table('group')->where('kode3', $kode3)->whereRaw('LENGTH(kode) = 6')->get();
-        $component = DB::table('group')->where('kode4', $kode4)->whereRaw('LENGTH(kode) = 9')->get();
-        $part = DB::table('group')->where('kode5', $kode5)->whereRaw('LENGTH(kode) >= 10 AND LENGTH(kode) <= 12')->get();
-        $sub_part = DB::table('group')->where('kode', $kode6)->whereRaw('LENGTH(kode) = 13')->get();
-        // return view('pages.admin.detail_group', compact(['group', 'sub_group', 'unit', 'component', 'part']));
-
-        return json_encode(compact(['group', 'sub_group', 'unit', 'component', 'part', 'sub_part']));
-    }
-
     public function detail_unit(Request $request)
     {
         $data = Group::where('kode', $request->input('kode'))->first();
