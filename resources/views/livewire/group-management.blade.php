@@ -9,8 +9,14 @@ $no = 1;
          <!-- Page Heading -->
          <div class="d-sm-flex align-items-center justify-content-between mb-4">
              <h1 class="h3 mb-0 text-gray-800">Main Group</h1>
+             <div class="text-right">
+                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal"
+                    data-target="#create"><i class="fas fa-plus fa-sm text-white-50"></i> Create </a>
+            </div>
              {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
          </div>
+         {{-- {{ dd($group)}}
+         {{ dd($group[1]->kode) }} --}}
 
          <!-- Content Row -->
          <div class="row">
@@ -64,6 +70,115 @@ $no = 1;
              </div>
 
          </div>
+
+        <form action="/admin/createGroup" method="POST">
+            @csrf
+            <div wire:ignore class="modal fade" id="create" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-12" wire:ignore>
+                                <label class="font-weight-bold">Create Choose</label>
+                                <select id="chooseCreate" name="choose" class="form-control" style="width: 100% !important">
+                                    <option value=""> --- Choose --- </option>
+                                    <option value="main_group">Main Group</option>
+                                    <option value="group">Group</option>
+                                    <option value="sub_group">Sub Group</option>
+                                    <option value="unit">Unit</option>
+                                    <option value="component">Component</option>
+                                    <option value="part">Part</option>
+                                </select><br>
+                            </div>
+
+                            <div class="col-12 chooseMainGroup" >
+                                <label class="font-weight-bold">Main Group</label>
+                                <select class="form-control" name="kodeMainGroup" id="create_main_group_list" style="width: 100% !important" wire:ignore>
+                                    <option value=""> --- Choose Main Group --- </option>
+                                    @foreach ($main_group as $mg)
+                                        <option value="{{ $mg->kode }}">{{ $mg->kode }}-{{ $mg->name }}
+                                        </option>
+                                    @endforeach
+                                </select><br>
+                            </div>
+                            <div class="col-12 chooseGroup mb-3" wire:ignore>
+                                <label class="font-weight-bold">Group</label>
+                                <select class="form-control" name="kodeGroup" id="create_group_list" style="width: 100% !important" >
+                                   <option value=""> --- Choose Group --- </option>
+                                </select>
+                            </div>
+                            <div class="col-12 chooseSubGroup mb-3" wire:ignore>
+                                <label class="font-weight-bold">Sub Group</label>
+                                <select class="form-control" name="kodeSubGroup" id="create_sub_group_list" style="width: 100% !important" >
+                                   <option value=""> --- Choose Sub Group --- </option>
+                                </select>
+                            </div>
+                            <div class="col-12 chooseUnit mb-3" wire:ignore>
+                                <label class="font-weight-bold">Unit</label>
+                                <select class="form-control" name="kodeUnit" id="create_unit_list" style="width: 100% !important" >
+                                   <option value=""> --- Choose Unit --- </option>
+                                </select>
+                            </div>
+                            <div class="col-12 chooseComponent mb-3" wire:ignore>
+                                <label class="font-weight-bold">Component</label>
+                                <select class="form-control" name="kodeComponent" id="create_component_list" style="width: 100% !important" >
+                                   <option value=""> --- Choose Component --- </option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 createMainGroup">
+                                <label class="font-weight-bold">Main Group</label>
+                                <input type="text" class="form-control" placeholder="Input Main Group Name" name="main_group">
+                            </div>
+
+                            <div class="col-12 createGroup" >
+                                <label class="font-weight-bold">Group</label>
+                                    <input type="text" class="form-control" placeholder="Input Group Name" name="group">
+                            </div>
+
+                            <div class="col-12 createSubGroup" >
+                                <label class="font-weight-bold">Sub Group </label>
+                                <input type="text" class="form-control" placeholder="Input Sub Group Name" name="sub_group">
+                            </div>
+
+                            <div class="col-12 createUnit">
+                                <label class="font-weight-bold">Unit</label>
+                                <input type="text" class="form-control" placeholder="Input Unit Name" name="unit">
+                            </div>
+
+                            <div class="col-12 createComponent">
+                                <label class="font-weight-bold">Component</label>
+                                <input type="text" class="form-control" placeholder="Input Component Name" name="component">
+                            </div>
+
+                            <div class="col-12 createPart">
+                                <label class="font-weight-bold">Part</label>
+                                <input type="text" class="form-control" placeholder="Input Part Name" name="part">
+                            </div>
+
+                            <div class="col-12 specification">
+                                <label class="font-weight-bold mt-3">Specification</label>
+                                <textarea type="text" class="form-control" id="specification" name="spek"></textarea>
+                            </div>
+
+                            <div class="col-12 inspection">
+                                <label class="font-weight-bold mt-3">Inspection</label>
+                                <textarea type="text" class="form-control" id="inspection" name="inspection"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-primary">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
      </div>
 </div>
 
@@ -74,123 +189,124 @@ $no = 1;
                 theme: 'bootstrap4',
             });
 
-        $('#group_list').prop('disabled', true);
-        $('#sub_group_list').prop('disabled', true);
-        $('#unit_list').prop('disabled', true);
-        $('#component_list').prop('disabled', true);
-
+        $('#group_list, #sub_group_list, #unit_list, #component_list').prop('disabled', true);
+        $('.createMainGroup, .createGroup, .createSubGroup, .createUnit, .createComponent, .createPart, .specification, .inspection').hide();
+        $('.chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
+        //Show Group List
         $('#main_group_list').change(function(e) {
             var data = $('#main_group_list').select2("val");
             Livewire.emit('selectMainGroup', data)
-        });
 
-        $(document).on('groupData', event => {
+            $(document).on('groupData', event => {
             var data = event.detail.group;
-            $('#group_list').html('')
-            $('#group_list').append('<option value=""> --- Choose Group --- </option>')
-            if (data == '') {
-                $('#group_list').prop('disabled', true);
-                $('#sub_group_list').prop('disabled', true);
-                $('#unit_list').prop('disabled', true);
-                $('#component_list').prop('disabled', true);
-            } else {
-                $('#group_list').prop('disabled', false);
-                $('#sub_group_list').prop('disabled', true);
-                $('#sub_group_list').html('')
-                $('#sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
-                $('unit_list').prop('disabled', true);
-                $('unit_list').html('')
-                $('unit_list').append('<option value=""> --- Choose Unit --- </option>')
-                $('#component_list').prop('disabled', true);
-                $('#component_list').html('')
-                $('#component_list').append('<option value=""> --- Choose Component --- </option>')
-            }
-            $.each(data, function() {
-                $('#group_list').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+            // console.log(data);
+                $('#group_list').html('')
+                $('#group_list').append('<option value=""> --- Choose Group --- </option>')
+                if (data == '') {
+                    $('#group_list').prop('disabled', true);
+                    $('#sub_group_list').prop('disabled', true);
+                    $('#unit_list').prop('disabled', true);
+                    $('#component_list').prop('disabled', true);
+                } else {
+                    $('#group_list').prop('disabled', false);
+                    $('#sub_group_list').prop('disabled', true);
+                    $('#sub_group_list').html('')
+                    $('#sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
+                    $('unit_list').prop('disabled', true);
+                    $('unit_list').html('')
+                    $('unit_list').append('<option value=""> --- Choose Unittt --- </option>')
+                    $('#component_list').prop('disabled', true);
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> --- Choose Component --- </option>')
+                }
+                $.each(data, function() {
+                    console.log(this);
+                    $('#group_list').append(
+                        `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                })
             })
-        })
-
+        });
+        //Show Sub Group List
         $('#group_list').change(function(e) {
             var data = $('#group_list').select2("val");
             Livewire.emit('selectGroup', data)
-        });
 
-        $(document).on('subgroupData', event => {
-            var data = event.detail.subgroup;
-            $('#sub_group_list').html('')
-            $('#sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
-            if (data == '') {
-                $('#sub_group_list').prop('disabled', true);
-                $('#unit_list').prop('disabled', true);
-                $('#component_list').prop('disabled', true);
+            $(document).on('subgroupData', event => {
+                var data = event.detail.subgroup;
                 $('#sub_group_list').html('')
-                $('#sub_group_list').append('<option value=""> No Sub Group </option>')
-            } else {
-                $('#sub_group_list').prop('disabled', false);
-                $('#unit_list').prop('disabled', true);
-                $('#unit_list').html('')
-                $('#unit_list').append('<option value=""> --- Choose Unit --- </option>')
-                $('#component_list').prop('disabled', true);
-                $('#component_list').html('')
-                $('#component_list').append('<option value=""> --- Choose Component --- </option>')
-            }
-            $.each(data, function() {
-                $('#sub_group_list').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                $('#sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
+                if (data == '') {
+                    $('#sub_group_list').prop('disabled', true);
+                    $('#unit_list').prop('disabled', true);
+                    $('#component_list').prop('disabled', true);
+                    $('#sub_group_list').html('')
+                    $('#sub_group_list').append('<option value=""> No Sub Group </option>')
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> No Component </option>')
+                } else {
+                    $('#sub_group_list').prop('disabled', false);
+                    $('#unit_list').prop('disabled', true);
+                    $('#unit_list').html('')
+                    $('#unit_list').append('<option value=""> --- Choose Unit --- </option>')
+                    $('#component_list').prop('disabled', true);
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> --- Choose Component --- </option>')
+                }
+                $.each(data, function() {
+                    $('#sub_group_list').append(
+                        `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                })
             })
-        })
-
+        });
+        //Show Unit List
         $('#sub_group_list').change(function(e) {
             var data = $('#sub_group_list').select2("val");
             Livewire.emit('selectSubGroup', data)
-        });
-
-
-        $(document).on('unitData', event => {
-            var data = event.detail.unit;
-            $('#unit_list').html('')
-            $('#unit_list').append('<option value=""> --- Choose Unit --- </option>')
-            if (data == '') {
-                $('#unit_list').prop('disabled', true);
-                $('#component_list').prop('disabled', true);
+            $(document).on('unitData', event => {
+                var data = event.detail.unit;
                 $('#unit_list').html('')
-                $('#unit_list').append('<option value=""> No Unit </option>')
-            } else {
-                $('#unit_list').prop('disabled', false);
-                $('#component_list').prop('disabled', true);
-                $('#component_list').html('')
-                $('#component_list').append('<option value=""> --- Choose Component --- </option>')
-            }
-            $.each(data, function() {
-                $('#unit_list').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                $('#unit_list').append('<option value=""> --- Choose Unit --- </option>')
+                if (data == '') {
+                    $('#unit_list').prop('disabled', true);
+                    $('#component_list').prop('disabled', true);
+                    $('#unit_list').html('')
+                    $('#unit_list').append('<option value=""> No Unit </option>')
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> No Component </option>')
+                } else {
+                    $('#unit_list').prop('disabled', false);
+                    $('#component_list').prop('disabled', true);
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> --- Choose Component --- </option>')
+                }
+                $.each(data, function() {
+                    $('#unit_list').append(
+                        `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                })
             })
-        })
-
+        });
+        //Show Component List
         $('#unit_list').change(function(e) {
             var data = $('#unit_list').select2("val");
             Livewire.emit('selectUnit', data)
-        });
-
-
-        $(document).on('componentData', event => {
-            var data = event.detail.component;
-            $('#component_list').html('')
-            $('#component_list').append('<option value=""> --- Choose Component --- </option>')
-            if (data == '') {
-                $('#component_list').prop('disabled', true);
+            $(document).on('componentData', event => {
+                var data = event.detail.component;
                 $('#component_list').html('')
-                $('#component_list').append('<option value=""> No Component </option>')
-            } else {
-                $('#component_list').prop('disabled', false);
-            }
-            $.each(data, function() {
-                $('#component_list').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                $('#component_list').append('<option value=""> --- Choose Component --- </option>')
+                if (data == '') {
+                    $('#component_list').prop('disabled', true);
+                    $('#component_list').html('')
+                    $('#component_list').append('<option value=""> No Component </option>')
+                } else {
+                    $('#component_list').prop('disabled', false);
+                }
+                $.each(data, function() {
+                    $('#component_list').append(
+                        `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                })
             })
-        })
-
+        });
+        //Detail
         $('#filter').on('click', function() {
             var main_group = $("#main_group_list").val();
             var group = $("#group_list").val();
@@ -557,5 +673,301 @@ $no = 1;
 
 
         });
+        //Modal Create
+        $('#chooseCreate').on('change', function(){
+            var kode = $('#chooseCreate').val();
+            // console.log(kode);
+
+            if (kode == 'main_group') {
+                $('.createGroup, .createSubGroup, .inspection, .specification, .createUnit, .createComponent, .createPart, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
+                $('.createMainGroup').show();
+            }
+
+            else if (kode == 'group') {
+                $('.createMainGroup, .createSubGroup, .createUnit, .createComponent, .createPart, .inspection, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
+                $('.createGroup, .specification, .chooseMainGroup').show();
+                $('#specification').summernote();
+            }
+
+            else if (kode == 'sub_group') {
+                $('.createMainGroup, .createGroup, .createUnit, .createComponent, .createPart, .inspection, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
+                $('.createSubGroup, .specification, .chooseMainGroup, .chooseGroup').show();
+                $('#specification').summernote();
+                $('#create_group_list').prop('disabled', true);
+
+                $('#create_main_group_list').on('change click', function(e) {
+                    var data = $('#create_main_group_list').select2("val");
+                    console.log(data);
+                    Livewire.emit('selectMainGroup', data)
+                });
+
+                $(document).on('groupData', event => {
+                    var data = event.detail.group;
+                    // console.log(data);
+                    $('#create_group_list').html('')
+                    $('#create_group_list').append('<option value=""> --- Choose Group --- </option>')
+
+                    if (data == '') {
+                        $('#create_group_list').prop('disabled', true);
+                    } else {
+                        $('#create_group_list').prop('disabled', false);
+                    }
+                    $.each(data, function() {
+                        console.log(this);
+                        $('#create_group_list').append(
+                            // '<option value=""> --- Choose Group --- </option>')
+                            `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    })
+
+                })
+            }
+            else if (kode == 'unit') {
+                $('.createMainGroup, .createGroup, .createSubGroup, .createComponent, .createPart, .chooseUnit, .chooseComponent').hide();
+                $('.createUnit, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup').show();
+                $('#specification').summernote();
+                $('#inspection').summernote();
+
+                $('#create_group_list, #create_sub_group_list').prop('disabled', true);
+
+                $('#create_main_group_list').on('change click', function(e) {
+                    var data = $('#create_main_group_list').select2("val");
+                    console.log(data);
+                    Livewire.emit('selectMainGroup', data)
+                });
+                $(document).on('groupData', event => {
+                    var data = event.detail.group;
+                    // console.log(data);
+                    $('#create_group_list').html('')
+                    $('#create_group_list').append('<option value=""> --- Choose Group --- </option>')
+
+                    if (data == '') {
+                        $('#create_group_list').prop('disabled', true);
+                        $('#create_group_list').html('')
+                        $('#create_group_list').append('<option value=""> No Group </option>')
+                    } else {
+                        $('#create_group_list').prop('disabled', false);
+                    }
+                    $.each(data, function() {
+                        console.log(this);
+                        $('#create_group_list').append(
+                            `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    })
+                })
+
+                $('#create_group_list').on('change click', function(e) {
+                    var data = $('#create_group_list').select2("val");
+                    Livewire.emit('selectGroup', data)
+
+                    $(document).on('subgroupData', event => {
+                    var data = event.detail.subgroup;
+                    $('#create_sub_group_list').html('')
+                    $('#create_sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
+                    if (data == '') {
+                        $('#create_sub_group_list').prop('disabled', true);
+                        $('#create_sub_group_list').html('')
+                        $('#create_sub_group_list').append('<option value=""> No Sub Group </option>')
+                    } else {
+                        $('#create_sub_group_list').prop('disabled', false);
+                    }
+                    $.each(data, function() {
+                        $('#create_sub_group_list').append(
+                            `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    })
+                })
+                });
+
+
+            }
+            else if (kode == 'component') {
+                $('.createMainGroup, .createGroup, .createSubGroup, .createUnit, .createPart, .chooseComponent').hide();
+                $('.createComponent, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit').show();
+                $('#specification').summernote();
+                $('#inspection').summernote();
+
+                $('#create_group_list, #create_sub_group_list, #create_unit_list').prop('disabled', true);
+
+                $('#create_main_group_list').on('change click', function(e) {
+                    var data = $('#create_main_group_list').select2("val");
+                    console.log(data);
+                    Livewire.emit('selectMainGroup', data)
+                });
+                $(document).on('groupData', event => {
+                    var data = event.detail.group;
+                    // console.log(data);
+                    $('#create_group_list').html('')
+                    $('#create_group_list').append('<option value=""> --- Choose Group --- </option>')
+
+                    if (data == '') {
+                        $('#create_group_list').prop('disabled', true);
+                    } else {
+                        $('#create_group_list').prop('disabled', false);
+                    }
+                    $.each(data, function() {
+                        console.log(this);
+                        $('#create_group_list').append(
+                            // '<option value=""> --- Choose Group --- </option>')
+                            `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    })
+                })
+
+                $('#create_group_list').on('change click', function(e) {
+                    var data = $('#create_group_list').select2("val");
+                    Livewire.emit('selectGroup', data)
+
+                    $(document).on('subgroupData', event => {
+                        var data = event.detail.subgroup;
+                        $('#create_sub_group_list').html('')
+                        $('#create_sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
+                        if (data == '') {
+                            $('#create_sub_group_list').prop('disabled', true);
+                        } else {
+                            $('#create_sub_group_list').prop('disabled', false);
+                        }
+                        $.each(data, function() {
+                            $('#create_sub_group_list').append(
+                                `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                        })
+                    })
+                });
+
+                $('#create_sub_group_list').on('change click', function(e) {
+                    var data = $('#create_sub_group_list').select2("val");
+                    Livewire.emit('selectSubGroup', data)
+                    $(document).on('unitData', event => {
+                        var data = event.detail.unit;
+                        $('#create_unit_list').html('')
+                        $('#create_unit_list').append('<option value=""> --- Choose Unit --- </option>')
+                        if (data == '') {
+                            $('#create_unit_list').prop('disabled', true);
+                            $('#create_unit_list').html('')
+                            $('#create_unit_list').append('<option value=""> No Unit </option>')
+                        } else {
+                            $('#create_unit_list').prop('disabled', false);
+                        }
+                        $.each(data, function() {
+                            $('#create_unit_list').append(
+                                `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                        })
+                    })
+                });
+            }
+            else {
+                $('.createMainGroup, .createGroup, .createSubGroup, .createUnit, .createComponent').hide();
+                $('.createPart, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').show();
+                $('#specification').summernote();
+                $('#inspection').summernote();
+
+                $('#create_group_list, #create_sub_group_list, #create_unit_list, #create_component_list').prop('disabled', true);
+
+                $('#create_main_group_list').on('change click', function(e) {
+                    var data = $('#create_main_group_list').select2("val");
+                    console.log(data);
+                    Livewire.emit('selectMainGroup', data)
+                });
+                $(document).on('groupData', event => {
+                    var data = event.detail.group;
+                    // console.log(data);
+                    $('#create_group_list').html('')
+                    $('#create_group_list').append('<option value=""> --- Choose Group --- </option>')
+
+                    if (data == '') {
+                        $('#create_group_list').prop('disabled', true);
+                    } else {
+                        $('#create_group_list').prop('disabled', false);
+                    }
+                    $.each(data, function() {
+                        console.log(this);
+                        $('#create_group_list').append(
+                            `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    })
+                })
+
+                $('#create_group_list').on('change click', function(e) {
+                    var data = $('#create_group_list').select2("val");
+                    Livewire.emit('selectGroup', data)
+
+                    $(document).on('subgroupData', event => {
+                        var data = event.detail.subgroup;
+                        $('#create_sub_group_list').html('')
+                        $('#create_sub_group_list').append('<option value=""> --- Choose Sub Group --- </option>')
+                        if (data == '') {
+                            $('#create_sub_group_list').prop('disabled', true);
+                        } else {
+                            $('#create_sub_group_list').prop('disabled', false);
+                        }
+                        $.each(data, function() {
+                            $('#create_sub_group_list').append(
+                                `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                        })
+                    })
+                });
+
+                $('#create_sub_group_list').on('change click', function(e) {
+                    var data = $('#create_sub_group_list').select2("val");
+                    Livewire.emit('selectSubGroup', data)
+                    $(document).on('unitData', event => {
+                        var data = event.detail.unit;
+                        $('#create_unit_list').html('')
+                        $('#create_unit_list').append('<option value=""> --- Choose Unit --- </option>')
+                        if (data == '') {
+                            $('#create_unit_list').prop('disabled', true);
+                            $('#create_unit_list').html('')
+                            $('#create_unit_list').append('<option value=""> No Unit </option>')
+                        } else {
+                            $('#create_unit_list').prop('disabled', false);
+                        }
+                        $.each(data, function() {
+                            $('#create_unit_list').append(
+                                `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                        })
+                    })
+                });
+
+                $('#create_unit_list').on('change click', function(e) {
+                    var data = $('#create_unit_list').select2("val");
+                    Livewire.emit('selectUnit', data)
+                    $(document).on('componentData', event => {
+                        var data = event.detail.component;
+                        $('#create_component_list').html('')
+                        $('#create_component_list').append('<option value=""> --- Choose Component --- </option>')
+                        if (data == '') {
+                            $('#create_component_list').prop('disabled', true);
+                            $('#create_component_list').html('')
+                            $('#create_component_list').append('<option value=""> No Component </option>')
+                        } else {
+                            $('#create_component_list').prop('disabled', false);
+                        }
+                        $.each(data, function() {
+                            $('#create_component_list').append(
+                                `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                        })
+                    })
+                });
+            }
+
+            $('#create_main_group_list').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('.chooseMainGroup')
+            });
+
+            $('#create_group_list').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('.chooseGroup')
+            });
+            $('#create_sub_group_list').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('.chooseSubGroup')
+            });
+            $('#create_unit_list').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('.chooseUnit')
+            });
+            $('#create_component_list').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('.chooseComponent')
+            });
+
+        });
+
     </script>
 @endpush

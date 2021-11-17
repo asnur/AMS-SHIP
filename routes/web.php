@@ -51,6 +51,10 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::put('/role/{id}', [RoleController::class, 'update'])->name('update-role');
     Route::delete('/role/{id}', [RoleController::class, 'destroy'])->name('delete-role');
 
+    //Create Data Group
+
+    Route::post('/createGroup', [GroupController::class, 'create_group']);
+
     //Detail Data Gruop
     Route::get('/detail-group', [GroupController::class, 'detail']);
     Route::get('/detail-unit', [GroupController::class, 'detail_unit']);

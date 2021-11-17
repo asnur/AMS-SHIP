@@ -24,8 +24,14 @@ class GroupManagement extends Component
     public function render()
     {
         $main_group = DB::table('group')->select('name', 'kode')->whereRaw('LENGTH(kode) = 1')->get();
-
-        return view('livewire.group-management', compact(['main_group']));
+        $group = DB::table('group')->select('name', 'kode', 'kode1')->whereRaw('LENGTH(kode) = 2')->get();
+        $sub_group = DB::table('group')->select('name', 'kode', 'kode2')->whereRaw('LENGTH(kode) = 3')->get();
+        $unit = DB::table('group')->select('name', 'kode', 'kode3')->whereRaw('LENGTH(kode) = 6')->get();
+        $component = DB::table('group')->select('name', 'kode', 'kode4')->whereRaw('LENGTH(kode) = 9')->get();
+        $part = DB::table('group')->select('name', 'kode', 'kode5')->whereRaw('LENGTH(kode) = 12')->get();
+        // dd($main_group);
+        // dd(strlen($group[0]->kode));
+        return view('livewire.group-management', compact(['main_group', 'group', 'sub_group', 'unit', 'component', 'part']));
     }
 
     public function selectMainGroup($id)
