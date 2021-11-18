@@ -9,9 +9,9 @@ function name_taskjob(int $id)
     return Group::where('kode', $id)->first();
 }
 
-function stock($id_group, $type)
+function stock($id_item, $type)
 {
-    $data = DB::table('inventory_stock')->select('id', 'id_group', "$type")->where('id_group', $id_group)->sum($type);
+    $data = DB::table('inventory_stock')->select('id', 'id_item', "$type")->where('id_item', $id_item)->sum($type);
 
     return $data;
 }

@@ -6,6 +6,7 @@ use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Models\InventoryGroup;
 use App\Models\InventoryStock;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -20,7 +21,18 @@ class InventoryController extends Controller
         $unit = DB::table('group')->select('name', 'kode', 'kode3')->whereRaw('LENGTH(kode) = 6')->get();
         $component = DB::table('group')->select('name', 'kode', 'kode4')->whereRaw('LENGTH(kode) = 9')->get();
         $part = DB::table('group')->select('name', 'kode', 'kode5')->whereRaw('LENGTH(kode) = 12')->get();
-        return view('pages/admin/inventory', compact(['inventory_group', 'main_group', 'group', 'sub_group', 'unit', 'component', 'part']));
+        $all_inventory = DB::table('group')->select('name', 'kode')->whereRaw('LENGTH(kode) >= 6')->get();
+        // dd($all_inventory);
+        return view('pages/admin/inventory', compact(['inventory_group', 'main_group', 'group', 'sub_group', 'unit', 'component', 'part', 'all_inventory']));
+    }
+
+    public function all_inventory()
+    {
+        $all_inventory = DB::table('group')->select('name', 'kode', 'id_item', 'installed', 'used', 'reserved', 'ready')->leftJoin('inventory_stock', 'group.kode', '=', 'inventory_stock.id_item')->whereRaw('LENGTH(kode) >= 6')->get();
+
+        $data['data'] = $all_inventory;
+
+        return json_encode($data, 1);
     }
 
     public function add_group(Request $request)

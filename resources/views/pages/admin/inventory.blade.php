@@ -154,55 +154,26 @@
                             <br>
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                 aria-labelledby="nav-home-tab">
-                                <table class="table table-striped" id="table">
+                                <table class="table table-striped" id="table-inventory">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2">No</th>
-                                            <th rowspan="2">Group</th>
-                                            <th colspan="4" style="text-align:center">Inventory</th>
-                                            <th rowspan="2">Action</th>
-                                        </tr>
-                                        <tr>
+                                            <th>Name</th>
                                             <th>Installed</th>
                                             <th>Used</th>
                                             <th>Reserved</th>
-                                            <th>Ready Stock</th>
+                                            <th>Ready</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($inventory_group as $ig)
-                                            <tr>
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $ig->name }}</td>
-                                                <td>{{ stock($ig->id, 'installed') }}</td>
-                                                <td>{{ stock($ig->id, 'used') }}</td>
-                                                <td>{{ stock($ig->id, 'reserved') }}</td>
-                                                <td>{{ stock($ig->id, 'ready') }}</td>
-                                                <td>
-                                                    <a class="btn btn-sm btn-success"
-                                                        onclick="previewItem({{ $ig->id }})"
-                                                        data-target="#previewInventory" data-toggle="modal"><i
-                                                            class="fa fa-eye"></i></a>
-                                                    <a class="btn btn-sm btn-primary"
-                                                        onclick="editInventory({{ $ig->id }})"
-                                                        data-target="#editInventory" data-toggle="modal"><i
-                                                            class="fa fa-edit"></i></a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th rowspan="2">No</th>
-                                            <th rowspan="2">Group</th>
-                                            <th colspan="4" style="text-align:center">Inventory</th>
-                                            <th rowspan="2">Action</th>
-                                        </tr>
-                                        <tr>
+                                            <th>Name</th>
                                             <th>Installed</th>
                                             <th>Used</th>
                                             <th>Reserved</th>
-                                            <th>Ready Stock</th>
+                                            <th>Ready</th>
                                         </tr>
                                     </tfoot>
                                 </table>

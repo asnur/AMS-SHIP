@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.0.5/css/scroller.dataTables.min.css"> --}}
     <style>
         #categoryFilter {
             display: inline;
@@ -380,6 +381,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     @include('sweetalert::alert')
     <script>
@@ -1041,6 +1043,29 @@
     @livewireScripts
     <script>
         var table = $('#table').DataTable({
+            deferRender: true,
+            responsive: true,
+        });
+
+        $('#table-inventory').DataTable({
+            deferRender: true,
+            ajax: 'http://localhost:8000/admin/all-inventory',
+            columns: [{
+                    data: 'kode'
+                },
+                {
+                    data: 'installed' == null ? 'kode' : 'installed'
+                },
+                {
+                    data: 'used'
+                },
+                {
+                    data: 'reserved'
+                },
+                {
+                    data: 'ready'
+                }
+            ],
             responsive: true,
         });
 

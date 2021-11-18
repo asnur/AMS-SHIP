@@ -96,6 +96,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::patch('/assign-inventory', [InventoryController::class, 'assign_inventory'])->name('assign-inventory');
     Route::get('/list-item', [InventoryController::class, 'list_inventory'])->name('list-inventory');
     Route::put('/edit-inventory', [InventoryController::class, 'edit_inventory'])->name('edit-inventory');
+    Route::get('/all-inventory', [InventoryController::class, 'all_inventory'])->name('all-inventory');
 });
 
 Auth::routes();
