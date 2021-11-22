@@ -19,7 +19,7 @@ class GroupController extends Controller
         ->whereRaw('LENGTH(kode) = 1')
         ->orWhereRaw('LENGTH(kode1) = 2')
         ->get();
-        // dd($main_group);
+        // dd($main_group->pluck('kode'));
         $group = DB::table('group')->select('name', 'kode', 'kode1')->whereRaw('LENGTH(kode) = 2')->get();
         $sub_group = DB::table('group')->select('name', 'kode', 'kode2')->whereRaw('LENGTH(kode) = 3')->get();
         $unit = DB::table('group')->select('name', 'kode', 'kode3')->whereRaw('LENGTH(kode) = 6')->get();
@@ -31,70 +31,100 @@ class GroupController extends Controller
     public function create_group(Request $request)
     {
         if($request->input('choose') == 'main_group'){
+            // $count = count($request->input('main_group'));
+            // dd($count);
             if (is_null($request->input('main_group')) || is_null($request->input('choose'))){
                 Alert::error('All field Must Be Filled', 'Failed');
                 return redirect()->route('group');
             }
-            $getkode1 = DB::table('group')->select('kode1')
-            ->orderBy('id', 'desc')
-            ->whereRaw('LENGTH(kode) = 1')
-            ->orWhereRaw('LENGTH(kode1) = 2')
+            $getkode1 = DB::table('group')->select('kode1')->orderBy('id', 'desc')->whereRaw('LENGTH(kode) = 1')->orWhereRaw('LENGTH(kode1) = 2')
             ->first();
 
-            $kode1 = $getkode1->kode1 + 1;
-            $kode2 = $kode1 .+ '0';
-            $kode3 = $kode2 .+ '0';
-            $kode4 = $kode3 .+ '0' .+ '0' .+ '0';
-            $kode5 = $kode4 .+ '0' .+ '0' .+ '0';
+            if(is_null($getkode1)){
+                $kode1 = 1;
+            }
+            else {
+                $kode1 = $getkode1->kode1 + 1 ;
+            };
+            // dd($request->all());
+            $kode1 = $kode1++;
+            $kode2 = str_pad($kode1,2,"0");
+            $kode3 = str_pad($kode1,3,"0");
+            $kode4 = str_pad($kode1,6,"0");
+            $kode5 = str_pad($kode1,9,"0");
+            $kode6 = str_pad($kode1,12,"0");
             $name = $request->input('main_group');
-            Group::create([
-                'kode1' => $kode1,
-                'kode2' => $kode2,
-                'kode3' => $kode3,
-                'kode4' => $kode4,
-                'kode5' => $kode5,
-                'kode' => $kode1,
-                'name' => $name
-            ]);
+            dd($kode1,$kode2,$kode3,$kode4,$kode5,$kode6,$name);
+
+            for($i = 0 ; $i < count($request->input('main_group')) ; $i++){
+                Group::create([
+                    'kode1' => $kode1,
+                    'kode2' => $kode2++,
+                    'kode3' => $kode3,
+                    'kode4' => $kode4,
+                    'kode5' => $kode5,
+                    'kode6' => $kode6,
+                    'kode' => $kode1++,
+                    'name' => $name[$i]
+                ]);
+            };
+
             Alert::success('Main Group has been created', 'Success');
             return redirect()->route('group');
 
         }
 
         else if($request->input('choose') == 'group'){
+            // dd($request->all());
             if (is_null($request->input('group')) || is_null($request->input('spek')
             || is_null($request->input('kodeMainGroup')))){
                 Alert::error('Field Name Group Must Be Filled' , 'Failed');
                 return redirect()->route('group');
             }
-            $getkode2 = DB::table('group')->select('kode2')->where('kode1' ,'=' ,$request->input('kodeMainGroup'))
+            $getkode2 = DB::table('group')->select('kode2')
+            ->where('kode1' ,'=' ,$request->input('kodeMainGroup'))
+            ->whereRaw('LENGTH(kode) = 2')
             ->orderBy('id', 'desc')->first();
+            // dd($getkode2->kode2);
+            if(is_null($getkode2)){
+                $kode1 = $request->input('kodeMainGroup');
+                $kode2 = $request->input('kodeMainGroup') .+ '1';
+            }
+            else {
+                $kode1 = $request->input('kodeMainGroup');
+                $kode2 = $getkode2->kode2 + 1 ;
+            };
 
             $kode1 = $request->input('kodeMainGroup');
-            $kode2 = $getkode2->kode2 + 1;
-            $kode3 = $kode2 .+ '0';
-            $kode4 = $kode3 .+ '0' .+ '0' .+ '0';
-            $kode5 = $kode4 .+ '0' .+ '0' .+ '0';
-            $kode6 = $kode5 .+ '0' .+ '0' .+ '0';
+            $kode2 = $kode2;
+            $kode3 = str_pad($kode2,3,"0");
+            $kode4 = str_pad($kode2,6,"0");
+            $kode5 = str_pad($kode2,9,"0");
+            $kode6 = str_pad($kode2,12,"0");
             $name = $request->input('group');
             $spek = $request->input('spek');
+            // dd($kode1,$kode2,$kode3,$kode4,$kode5,$kode6,);
 
-            Group::create([
-                'kode1' => $kode1,
-                'kode2' => $kode2,
-                'kode3' => $kode3,
-                'kode4' => $kode4,
-                'kode5' => $kode5,
-                'kode6' => $kode6,
-                'kode' => $kode2,
-                'name' => $name,
-                'spek' => $spek
-            ]);
+            for($i = 0 ; $i < count($request->input('group')) ; $i++){
+                Group::create([
+                    'kode1' => $kode1,
+                    'kode2' => $kode2,
+                    'kode3' => $kode3,
+                    'kode4' => $kode4,
+                    'kode5' => $kode5,
+                    'kode6' => $kode6,
+                    'kode' => $kode2++,
+                    'name' => $name[$i],
+                    'spek' => $spek[$i]
+                ]);
+            };
+
             Alert::success('Group has been created', 'Success');
             return redirect()->route('group');
         }
 
         else if($request->input('choose') == 'sub_group'){
+            // dd($request->all());
 
             if (is_null($request->input('sub_group')) || is_null($request->input('spek'))
             || is_null($request->input('kodeMainGroup')) || is_null($request->input('kodeGroup')) ){
@@ -127,27 +157,31 @@ class GroupController extends Controller
             $kodePart = $kodeComponent .+ '0' .+ '0' .+ '0';
             $name = $request->input('sub_group');
             $spek = $request->input('spek');
+            // dd($kodeMainGroup,$kodeGroup,$kodeSubGroup,$kodeUnit,$kodeComponent,$kodePart,);
 
-            Group::create([
-                'kode1' => $kodeMainGroup,
-                'kode2' => $kodeGroup,
-                'kode3' => $kodeSubGroup,
-                'kode4' => $kodeUnit,
-                'kode5' => $kodeComponent,
-                'kode6' => $kodePart,
-                'kode' => $kodeSubGroup,
-                'name' => $name,
-                'spek' => $spek
-            ]);
+            for($i = 0 ; $i < count($request->input('sub_group')) ; $i++){
+                Group::create([
+                    'kode1' => $kodeMainGroup,
+                    'kode2' => $kodeGroup,
+                    'kode3' => $kodeSubGroup,
+                    'kode4' => $kodeUnit,
+                    'kode5' => $kodeComponent,
+                    'kode6' => $kodePart,
+                    'kode' => $kodeSubGroup++,
+                    'name' => $name[$i],
+                    'spek' => $spek[$i]
+                ]);
+            };
+
             Alert::success('Sub Group has been created', 'Success');
             return redirect()->route('group');
         }
 
         else if($request->input('choose') == 'unit'){
-
+            // dd($request->all());
             if (is_null($request->input('unit')) || is_null($request->input('spek'))
             || is_null($request->input('kodeMainGroup')) || is_null($request->input('kodeGroup'))
-            || is_null($request->input('kodeSubGroup')) || is_null($request->input('inspection'))){
+            || is_null($request->input('kodeSubGroup')) || is_null($request->input('inspect'))){
                 Alert::error('All Field Must Be Filled', 'Failed');
                 return redirect()->route('group');
             }
@@ -181,31 +215,35 @@ class GroupController extends Controller
             $kodePart = $kodeComponent .+ '0' .+ '0' .+ '0';
             $name = $request->input('unit');
             $spek = $request->input('spek');
-            $inspection = $request->input('inspection');
+            $inspection = $request->input('inspect');
+            // dd($kodeMainGroup,$kodeGroup,$kodeSubGroup,$kodeUnit,$kodeComponent,$kodePart,);
 
-            Group::create([
-                'kode1' => $kodeMainGroup,
-                'kode2' => $kodeGroup,
-                'kode3' => $kodeSubGroup,
-                'kode4' => $kodeUnit,
-                'kode5' => $kodeComponent,
-                'kode6' => $kodePart,
-                'kode' => $kodeUnit,
-                'name' => $name,
-                'spek' => $spek,
-                'inspection' => $inspection
-            ]);
+            for($i = 0 ; $i < count($request->input('unit')) ; $i++){
+                Group::create([
+                    'kode1' => $kodeMainGroup,
+                    'kode2' => $kodeGroup,
+                    'kode3' => $kodeSubGroup,
+                    'kode4' => $kodeUnit,
+                    'kode5' => $kodeComponent,
+                    'kode6' => $kodePart,
+                    'kode' => $kodeUnit++,
+                    'name' => $name[$i],
+                    'spek' => $spek[$i],
+                    'inspection' => $inspection[$i]
+                ]);
+            };
+
             Alert::success('Unit has been created', 'Success');
             return redirect()->route('group');
             // dd($kode5);
         }
 
         else if($request->input('choose') == 'component'){
-
+            // dd($request->all());
             if (is_null($request->input('component')) || is_null($request->input('spek'))
             || is_null($request->input('kodeMainGroup')) || is_null($request->input('kodeGroup'))
             || is_null($request->input('kodeSubGroup')) || is_null($request->input('kodeUnit'))
-            || is_null($request->input('inspection'))){
+            || is_null($request->input('inspect'))){
                 Alert::error('All Field Must Be Filled', 'Failed');
                 return redirect()->route('group');
             }
@@ -241,32 +279,35 @@ class GroupController extends Controller
             $kodePart = $kodeComponent .+ '0' .+ '0' .+ '0';
             $name = $request->input('component');
             $spek = $request->input('spek');
-            $inspection = $request->input('inspection');
+            $inspection = $request->input('inspect');
+            // dd($kodeMainGroup,$kodeGroup,$kodeSubGroup,$kodeUnit,$kodeComponent,$kodePart,);
 
+            for($i = 0 ; $i < count($request->input('component')) ; $i++){
+                Group::create([
+                    'kode1' => $kodeMainGroup,
+                    'kode2' => $kodeGroup,
+                    'kode3' => $kodeSubGroup,
+                    'kode4' => $kodeUnit,
+                    'kode5' => $kodeComponent,
+                    'kode6' => $kodePart,
+                    'kode' => $kodeComponent++,
+                    'name' => $name[$i],
+                    'spek' => $spek[$i],
+                    'inspection' => $inspection[$i]
+                ]);
+            };
 
-            Group::create([
-                'kode1' => $kodeMainGroup,
-                'kode2' => $kodeGroup,
-                'kode3' => $kodeSubGroup,
-                'kode4' => $kodeUnit,
-                'kode5' => $kodeComponent,
-                'kode6' => $kodePart,
-                'kode' => $kodeComponent,
-                'name' => $name,
-                'spek' => $spek,
-                'inspection' => $inspection
-            ]);
             Alert::success('Component has been created', 'Success');
             return redirect()->route('group');
 
         }
 
         elseif ($request->input('choose') == 'part'){
-
+            // dd($request->all());
             if (is_null($request->input('part')) || is_null($request->input('spek'))
             || is_null($request->input('kodeMainGroup')) || is_null($request->input('kodeGroup'))
             || is_null($request->input('kodeSubGroup')) || is_null($request->input('kodeUnit'))
-            || is_null($request->input('inspection')) || is_null($request->input('kodeComponent'))){
+            || is_null($request->input('inspect')) || is_null($request->input('kodeComponent'))){
                 Alert::error('All Field Must Be Filled', 'Failed');
                 return redirect()->route('group');
             }
@@ -297,6 +338,7 @@ class GroupController extends Controller
                 $kode5 = $request->input('kodeComponent');
                 $kode6 = $getkode6->kode6 + 1 ;
             };
+
             $kodeMainGroup = $kode1 ;
             $kodeGroup = $kode2;
             $kodeSubGroup = $kode3 ;
@@ -305,20 +347,23 @@ class GroupController extends Controller
             $kodePart = $kode6;
             $name = $request->input('part');
             $spek = $request->input('spek');
-            $inspection = $request->input('inspection');
+            $inspection = $request->input('inspect');
+            // dd($kodeMainGroup,$kodeGroup,$kodeSubGroup,$kodeUnit,$kodeComponent,$kodePart,);
 
-            Group::create([
-                'kode1' => $kodeMainGroup,
-                'kode2' => $kodeGroup,
-                'kode3' => $kodeSubGroup,
-                'kode4' => $kodeUnit,
-                'kode5' => $kodeComponent,
-                'kode6' => $kodePart,
-                'kode' => $kodePart,
-                'name' => $name,
-                'spek' => $spek,
-                'inspection' => $inspection
-            ]);
+            for($i = 0 ; $i < count($request->input('part')) ; $i++){
+                Group::create([
+                    'kode1' => $kodeMainGroup,
+                    'kode2' => $kodeGroup,
+                    'kode3' => $kodeSubGroup,
+                    'kode4' => $kodeUnit,
+                    'kode5' => $kodeComponent,
+                    'kode6' => $kodePart,
+                    'kode' => $kodePart++,
+                    'name' => $name[$i],
+                    'spek' => $spek[$i],
+                    'inspection' => $inspection[$i]
+                ]);
+            };
 
             Alert::success('Part has been created', 'Success');
             return redirect()->route('group');

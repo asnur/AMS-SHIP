@@ -83,7 +83,7 @@ $no = 1;
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" id="modal">
                             <div class="col-12" wire:ignore>
                                 <label class="font-weight-bold">Create Choose</label>
                                 <select id="chooseCreate" name="choose" class="form-control" style="width: 100% !important">
@@ -119,6 +119,12 @@ $no = 1;
                                    <option value=""> --- Choose Sub Group --- </option>
                                 </select>
                             </div>
+                            {{-- <div class="col-2 chooseSubGroup mb-3" wire:ignore>
+                                <label class="font-weight-bold">Sub Group</label>
+                                <select class="form-control" name="kodeSubGroup" id="create_sub_group_list" style="width: 100% !important" >
+                                   <option value=""> --- Choose Sub Group --- </option>
+                                </select>
+                            </div> --}}
                             <div class="col-12 chooseUnit mb-3" wire:ignore>
                                 <label class="font-weight-bold">Unit</label>
                                 <select class="form-control" name="kodeUnit" id="create_unit_list" style="width: 100% !important" >
@@ -134,42 +140,48 @@ $no = 1;
 
                             <div class="col-12 createMainGroup">
                                 <label class="font-weight-bold">Main Group</label>
-                                <input type="text" class="form-control" placeholder="Input Main Group Name" name="main_group">
+                                <button id="addMainGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                <input type="text" class="form-control mt-2" placeholder="Input Main Group Name" name="main_group[]">
                             </div>
 
                             <div class="col-12 createGroup" >
                                 <label class="font-weight-bold">Group</label>
-                                    <input type="text" class="form-control" placeholder="Input Group Name" name="group">
+                                <button id="addGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                    <input type="text" class="form-control mt-2" placeholder="Input Group Name" name="group[]">
                             </div>
 
-                            <div class="col-12 createSubGroup" >
+                            <div class="col-12 createSubGroup">
                                 <label class="font-weight-bold">Sub Group </label>
-                                <input type="text" class="form-control" placeholder="Input Sub Group Name" name="sub_group">
+                                <button id="addSubGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                <input type="text" placeholder="Input Sub Group Name" name="sub_group[]" class="form-control mt-2">
                             </div>
 
                             <div class="col-12 createUnit">
                                 <label class="font-weight-bold">Unit</label>
-                                <input type="text" class="form-control" placeholder="Input Unit Name" name="unit">
+                                <button id="addUnit" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                <input type="text" class="form-control mt-2" placeholder="Input Unit Name" name="unit[]">
                             </div>
 
                             <div class="col-12 createComponent">
                                 <label class="font-weight-bold">Component</label>
-                                <input type="text" class="form-control" placeholder="Input Component Name" name="component">
+                                <button id="addComponent" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                <input type="text" class="form-control mt-2" placeholder="Input Component Name" name="component[]">
                             </div>
 
                             <div class="col-12 createPart">
                                 <label class="font-weight-bold">Part</label>
-                                <input type="text" class="form-control" placeholder="Input Part Name" name="part">
+                                <button id="addPart" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                <input type="text" class="form-control mt-2" placeholder="Input Part Name" name="part[]">
                             </div>
 
                             <div class="col-12 specification">
                                 <label class="font-weight-bold mt-3">Specification</label>
-                                <textarea type="text" class="form-control" id="specification" name="spek"></textarea>
+                                <textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>
                             </div>
 
                             <div class="col-12 inspection">
                                 <label class="font-weight-bold mt-3">Inspection</label>
-                                <textarea type="text" class="form-control" id="inspection" name="inspection"></textarea>
+                                <textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer bg-primary">
@@ -681,12 +693,46 @@ $no = 1;
             if (kode == 'main_group') {
                 $('.createGroup, .createSubGroup, .inspection, .specification, .createUnit, .createComponent, .createPart, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
                 $('.createMainGroup').show();
+                $('.addMultiGroup, .addMultiSpekGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
+                    $(this).remove()
+                })
+
+                $('#addMainGroup').on('click', function(){
+                    var addMultiMainGroup =
+                    '<div class="col-12 addMultiMainGroup">'+
+                        '<input type="text" class="form-control mt-2" placeholder="Input Main Group Name" name="main_group[]">'+
+                    '</div>'
+                    $('#modal').append(addMultiMainGroup);
+                })
             }
 
             else if (kode == 'group') {
                 $('.createMainGroup, .createSubGroup, .createUnit, .createComponent, .createPart, .inspection, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').hide();
                 $('.createGroup, .specification, .chooseMainGroup').show();
                 $('#specification').summernote();
+                $('.addMultiMainGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
+                    $(this).hide()
+                })
+
+
+                var addMultiGroup =
+                '<div class="col-12 addMultiGroup">'+
+                    '<label class="font-weight-bold">Group</label>'+
+                    '<input type="text" class="form-control mt-2" placeholder="Input Group Name" name="group[]">'+
+                '</div>'+
+                '<div class="col-12 addMultiSpekGroup">'+
+                    '<label class="font-weight-bold mt-3">Specification</label>'+
+                    '<textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>'+
+                '</div>'
+
+                $('#addGroup').on('click', function(){
+                    $('#modal').append(addMultiGroup);
+                    $('.spek').each(function(){
+                        $(this).summernote()
+                    });
+                })
+
+
             }
 
             else if (kode == 'sub_group') {
@@ -694,6 +740,9 @@ $no = 1;
                 $('.createSubGroup, .specification, .chooseMainGroup, .chooseGroup').show();
                 $('#specification').summernote();
                 $('#create_group_list').prop('disabled', true);
+                $('.addMultiMainGroup, .addMultiGroup, .addMultiSpekGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
+                    $(this).remove()
+                })
 
                 $('#create_main_group_list').on('change click', function(e) {
                     var data = $('#create_main_group_list').select2("val");
@@ -718,14 +767,33 @@ $no = 1;
                             // '<option value=""> --- Choose Group --- </option>')
                             `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
                     })
-
                 })
+
+                var addMultiSubGroup =
+                    '<div class="col-12 addMultiSubGroup">'+
+                        '<label class="font-weight-bold">Sub Group</label>'+
+                        '<input type="text" class="form-control mt-2" placeholder="Input Sub Group Name" name="sub_group[]">'+
+                    '</div>'+
+                    '<div class="col-12 addMultiSpekSubGroup">'+
+                        '<label class="font-weight-bold mt-3">Specification</label>'+
+                        '<textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>'+
+                    '</div>'
+
+                    $('#addSubGroup').on('click', function(){
+                        $('#modal').append(addMultiSubGroup);
+                        $('.spek').each(function(){
+                            $(this).summernote()
+                        });
+                    })
             }
             else if (kode == 'unit') {
                 $('.createMainGroup, .createGroup, .createSubGroup, .createComponent, .createPart, .chooseUnit, .chooseComponent').hide();
                 $('.createUnit, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup').show();
                 $('#specification').summernote();
                 $('#inspection').summernote();
+                $('.addMultiMainGroup, .addMultiGroup, .addMultiSpekGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
+                    $(this).remove()
+                })
 
                 $('#create_group_list, #create_sub_group_list').prop('disabled', true);
 
@@ -776,6 +844,27 @@ $no = 1;
                 })
                 });
 
+                var addMultiUnit =
+                '<div class="col-12 mt-2 addMultiUnit">'+
+                    '<label class="font-weight-bold">Unit</label>'+
+                    '<input type="text" class="form-control mt-2" placeholder="Input Unit Name" name="unit[]">'+
+                '</div>'+
+                '<div class="col-12 addMultiSpekUnit" >'+
+                    '<label class="font-weight-bold mt-3">Specification</label>'+
+                    '<textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>'+
+                '</div>'+
+                '<div class="col-12 addMultiInspectUnit">'+
+                    '<label class="font-weight-bold mt-3">Inspection</label>'+
+                    '<textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>'+
+                '</div>'
+
+                $('#addUnit').on('click', function(){
+                    $('#modal').append(addMultiUnit);
+                    $('.spek, .inspect').each(function(){
+                        $(this).summernote()
+                    });
+                })
+
 
             }
             else if (kode == 'component') {
@@ -783,6 +872,11 @@ $no = 1;
                 $('.createComponent, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit').show();
                 $('#specification').summernote();
                 $('#inspection').summernote();
+                $('.addMultiMainGroup, .addMultiGroup, .addMultiSpekGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
+                    $(this).remove()
+
+                })
+                // $('#specification, #inspection').val(null)
 
                 $('#create_group_list, #create_sub_group_list, #create_unit_list').prop('disabled', true);
 
@@ -850,12 +944,36 @@ $no = 1;
                         })
                     })
                 });
+
+                var addMultiComponent =
+                '<div class="col-12 mt-2 addMultiComponent" >'+
+                    '<label class="font-weight-bold">Component</label>'+
+                    '<input type="text" class="form-control mt-2" placeholder="Input Component Name" name="component[]">'+
+                '</div>'+
+                '<div class="col-12 addMultiSpekComponent">'+
+                    '<label class="font-weight-bold mt-3">Specification</label>'+
+                    '<textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>'+
+                '</div>'+
+                '<div class="col-12 addMultiInspectComponent">'+
+                    '<label class="font-weight-bold mt-3">Inspection</label>'+
+                    '<textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>'+
+                '</div>'
+
+                $('#addComponent').on('click', function(){
+                    $('#modal').append(addMultiComponent);
+                    $('.spek, .inspect').each(function(){
+                        $(this).summernote()
+                    });
+                })
             }
             else {
                 $('.createMainGroup, .createGroup, .createSubGroup, .createUnit, .createComponent').hide();
                 $('.createPart, .inspection, .specification, .chooseMainGroup, .chooseGroup, .chooseSubGroup, .chooseUnit, .chooseComponent').show();
                 $('#specification').summernote();
                 $('#inspection').summernote();
+                $('.addMultiMainGroup, .addMultiGroup, .addMultiSpekGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent').each(function(){
+                    $(this).remove()
+                })
 
                 $('#create_group_list, #create_sub_group_list, #create_unit_list, #create_component_list').prop('disabled', true);
 
@@ -943,6 +1061,27 @@ $no = 1;
                         })
                     })
                 });
+
+                var addMultiPart =
+                '<div class="col-12 mt-2 addMultiPart">'+
+                    '<label class="font-weight-bold">Part</label>'+
+                    '<input type="text" class="form-control mt-2" placeholder="Input Part Name" name="part[]">'+
+                '</div>'+
+                '<div class="col-12 addMultiSpekPart">'+
+                    '<label class="font-weight-bold mt-3">Specification</label>'+
+                    '<textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>'+
+                '</div>'+
+                '<div class="col-12 addMultiInspectPart">'+
+                    '<label class="font-weight-bold mt-3">Inspection</label>'+
+                    '<textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>'+
+                '</div>'
+
+                $('#addPart').on('click', function(){
+                    $('#modal').append(addMultiPart);
+                    $('.spek, .inspect').each(function(){
+                        $(this).summernote()
+                    });
+                })
             }
 
             $('#create_main_group_list').select2({
