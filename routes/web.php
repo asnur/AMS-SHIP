@@ -60,9 +60,9 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::get('/detail-unit', [GroupController::class, 'detail_unit']);
     Route::get('/detail-component', [GroupController::class, 'detail_component']);
     Route::get('/detail-part', [GroupController::class, 'detail_part']);
-    Route::get('/detail-part', [GroupController::class, 'detail_part']);
     Route::get('/detail-sub-part/{id}', [GroupController::class, 'detail_sub_part']);
     Route::get('/detail-subpart', [GroupController::class, 'detail_subpart']);
+    Route::get('/delete/{kode}', [GroupController::class, 'delete']);
 
     //Update Data Group
     Route::post('/updateUnit', [GroupController::class, 'update_unit']);

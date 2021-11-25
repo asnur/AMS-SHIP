@@ -84,105 +84,110 @@ $no = 1;
                             </button>
                         </div>
                         <div class="modal-body" id="modal">
-                            <div class="col-12" wire:ignore>
-                                <label class="font-weight-bold">Create Choose</label>
-                                <select id="chooseCreate" name="choose" class="form-control" style="width: 100% !important">
-                                    <option value=""> --- Choose --- </option>
-                                    <option value="main_group">Main Group</option>
-                                    <option value="group">Group</option>
-                                    <option value="sub_group">Sub Group</option>
-                                    <option value="unit">Unit</option>
-                                    <option value="component">Component</option>
-                                    <option value="part">Part</option>
-                                </select><br>
+                            <div class="container">
+                                <div class="row append">
+                                    <div class="col-12" wire:ignore>
+                                        <label class="font-weight-bold">Create Choose</label>
+                                        <select id="chooseCreate" name="choose" class="form-control" style="width: 100% !important">
+                                            <option value=""> --- Choose --- </option>
+                                            <option value="main_group">Main Group</option>
+                                            <option value="group">Group</option>
+                                            <option value="sub_group">Sub Group</option>
+                                            <option value="unit">Unit</option>
+                                            <option value="component">Component</option>
+                                            <option value="part">Part</option>
+                                        </select><br>
+                                    </div>
+
+                                    <div class="col-12 chooseMainGroup" >
+                                        <label class="font-weight-bold">Main Group</label>
+                                        <select class="form-control" name="kodeMainGroup" id="create_main_group_list" style="width: 100% !important" wire:ignore>
+                                            <option value=""> --- Choose Main Group --- </option>
+                                            @foreach ($main_group as $mg)
+                                                <option value="{{ $mg->kode }}">{{ $mg->kode }}-{{ $mg->name }}
+                                                </option>
+                                            @endforeach
+                                        </select><br>
+                                    </div>
+                                    <div class="col-6 chooseGroup mb-3" wire:ignore>
+                                        <label class="font-weight-bold">Group</label>
+                                        <select class="form-control" name="kodeGroup" id="create_group_list" style="width: 100% !important" >
+                                           <option value=""> --- Choose Group --- </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 chooseSubGroup mb-3" wire:ignore>
+                                        <label class="font-weight-bold">Sub Group</label>
+                                        <select class="form-control" name="kodeSubGroup" id="create_sub_group_list" style="width: 100% !important" >
+                                           <option value=""> --- Choose Sub Group --- </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 chooseUnit mb-3" wire:ignore>
+                                        <label class="font-weight-bold">Unit</label>
+                                        <select class="form-control" name="kodeUnit" id="create_unit_list" style="width: 100% !important" >
+                                           <option value=""> --- Choose Unit --- </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 chooseComponent mb-3" wire:ignore>
+                                        <label class="font-weight-bold">Component</label>
+                                        <select class="form-control" name="kodeComponent" id="create_component_list" style="width: 100% !important" >
+                                           <option value=""> --- Choose Component --- </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 createMainGroup">
+                                        <label class="font-weight-bold">Main Group</label>
+                                        <button id="addMainGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                        <button id="removeMainGroup" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                        <input type="text" class="form-control mt-2" placeholder="Input Main Group Name" name="main_group[]">
+                                    </div>
+
+                                    <div class="col-12 createGroup" >
+                                        <label class="font-weight-bold">Group</label>
+                                        <button id="addGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                        <button id="removeGroup" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                            <input type="text" class="form-control mt-2" placeholder="Input Group Name" name="group[]">
+                                    </div>
+
+                                    <div class="col-12 createSubGroup">
+                                        <label class="font-weight-bold">Sub Group </label>
+                                        <button id="addSubGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                        <button id="removeSubGroup" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                        <input type="text" placeholder="Input Sub Group Name" name="sub_group[]" class="form-control mt-2">
+                                    </div>
+
+                                    <div class="col-12 createUnit">
+                                        <label class="font-weight-bold">Unit</label>
+                                        <button id="addUnit" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                        <button id="removeUnit" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                        <input type="text" class="form-control mt-2" placeholder="Input Unit Name" name="unit[]">
+                                    </div>
+
+                                    <div class="col-12 createComponent">
+                                        <label class="font-weight-bold">Component</label>
+                                        <button id="addComponent" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
+                                        <button id="removeComponent" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                        <input type="text" class="form-control mt-2" placeholder="Input Component Name" name="component[]">
+                                    </div>
+
+                                    <div class="col-12 createPart">
+                                        <label class="font-weight-bold">Part</label>
+                                        <button id="addPart" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Add</button>
+                                        <button id="removePart" type="button" class="btn btn-outline-danger"><i class="fa fa-minus" aria-hidden="true"> </i>Remove</button>
+                                        <input type="text" class="form-control mt-2" placeholder="Input Part Name" name="part[]">
+                                    </div>
+
+                                    <div class="col-12 specification">
+                                        <label class="font-weight-bold mt-3">Specification</label>
+                                        <textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>
+                                    </div>
+
+                                    <div class="col-12 inspection">
+                                        <label class="font-weight-bold mt-3">Inspection</label>
+                                        <textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-12 chooseMainGroup" >
-                                <label class="font-weight-bold">Main Group</label>
-                                <select class="form-control" name="kodeMainGroup" id="create_main_group_list" style="width: 100% !important" wire:ignore>
-                                    <option value=""> --- Choose Main Group --- </option>
-                                    @foreach ($main_group as $mg)
-                                        <option value="{{ $mg->kode }}">{{ $mg->kode }}-{{ $mg->name }}
-                                        </option>
-                                    @endforeach
-                                </select><br>
-                            </div>
-                            <div class="col-12 chooseGroup mb-3" wire:ignore>
-                                <label class="font-weight-bold">Group</label>
-                                <select class="form-control" name="kodeGroup" id="create_group_list" style="width: 100% !important" >
-                                   <option value=""> --- Choose Group --- </option>
-                                </select>
-                            </div>
-                            <div class="col-12 chooseSubGroup mb-3" wire:ignore>
-                                <label class="font-weight-bold">Sub Group</label>
-                                <select class="form-control" name="kodeSubGroup" id="create_sub_group_list" style="width: 100% !important" >
-                                   <option value=""> --- Choose Sub Group --- </option>
-                                </select>
-                            </div>
-                            {{-- <div class="col-2 chooseSubGroup mb-3" wire:ignore>
-                                <label class="font-weight-bold">Sub Group</label>
-                                <select class="form-control" name="kodeSubGroup" id="create_sub_group_list" style="width: 100% !important" >
-                                   <option value=""> --- Choose Sub Group --- </option>
-                                </select>
-                            </div> --}}
-                            <div class="col-12 chooseUnit mb-3" wire:ignore>
-                                <label class="font-weight-bold">Unit</label>
-                                <select class="form-control" name="kodeUnit" id="create_unit_list" style="width: 100% !important" >
-                                   <option value=""> --- Choose Unit --- </option>
-                                </select>
-                            </div>
-                            <div class="col-12 chooseComponent mb-3" wire:ignore>
-                                <label class="font-weight-bold">Component</label>
-                                <select class="form-control" name="kodeComponent" id="create_component_list" style="width: 100% !important" >
-                                   <option value=""> --- Choose Component --- </option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 createMainGroup">
-                                <label class="font-weight-bold">Main Group</label>
-                                <button id="addMainGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                <input type="text" class="form-control mt-2" placeholder="Input Main Group Name" name="main_group[]">
-                            </div>
-
-                            <div class="col-12 createGroup" >
-                                <label class="font-weight-bold">Group</label>
-                                <button id="addGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                    <input type="text" class="form-control mt-2" placeholder="Input Group Name" name="group[]">
-                            </div>
-
-                            <div class="col-12 createSubGroup">
-                                <label class="font-weight-bold">Sub Group </label>
-                                <button id="addSubGroup" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                <input type="text" placeholder="Input Sub Group Name" name="sub_group[]" class="form-control mt-2">
-                            </div>
-
-                            <div class="col-12 createUnit">
-                                <label class="font-weight-bold">Unit</label>
-                                <button id="addUnit" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                <input type="text" class="form-control mt-2" placeholder="Input Unit Name" name="unit[]">
-                            </div>
-
-                            <div class="col-12 createComponent">
-                                <label class="font-weight-bold">Component</label>
-                                <button id="addComponent" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                <input type="text" class="form-control mt-2" placeholder="Input Component Name" name="component[]">
-                            </div>
-
-                            <div class="col-12 createPart">
-                                <label class="font-weight-bold">Part</label>
-                                <button id="addPart" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"> </i>Tambah</button>
-                                <input type="text" class="form-control mt-2" placeholder="Input Part Name" name="part[]">
-                            </div>
-
-                            <div class="col-12 specification">
-                                <label class="font-weight-bold mt-3">Specification</label>
-                                <textarea type="text" class="form-control spek" id="specification" name="spek[]"></textarea>
-                            </div>
-
-                            <div class="col-12 inspection">
-                                <label class="font-weight-bold mt-3">Inspection</label>
-                                <textarea type="text" class="form-control inspect" id="inspection" name="inspect[]"></textarea>
-                            </div>
                         </div>
                         <div class="modal-footer bg-primary">
                             <button type="submit" class="btn btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> Create</button>
@@ -358,6 +363,11 @@ $no = 1;
                                     <td>${obj.kode}</td>
                                     <td>${obj.name}</td>
                                     <td>${obj.spek}</td>
+                                    <td>
+                                        @if (auth()->user()->can('delete management group'))
+                                        <a class="btn btn-sm btn-danger"  href="/admin/delete/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></a>
+                                        @endif
+                                    </td>
                                 </tr>
                             `;
                     });
@@ -369,6 +379,11 @@ $no = 1;
                                     <td>${obj.kode}</td>
                                     <td>${obj.name}</td>
                                     <td>${obj.spek}</td>
+                                    <td>
+                                        @if (auth()->user()->can('delete management group'))
+                                        <a class="btn btn-sm btn-danger"  href="/admin/delete/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></a>
+                                        @endif
+                                    </td>
                                 </tr>
                             `;
                     });
@@ -382,7 +397,12 @@ $no = 1;
                                     <td>${obj.spek}</td>
                                     <td>${obj.inspection}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editUnit(${obj.kode})" data-toggle="modal" data-target="#editUnit"><i class="fa fa-edit"></i></a>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                            <a class="btn btn-sm btn-primary" onclick="editUnit(${obj.kode})" data-toggle="modal" data-target="#editUnit"><i class="fa fa-edit"></i></a>
+                                        </span>
+                                        @if (auth()->user()->can('delete management group'))
+                                        <a class="btn btn-sm btn-danger"  href="/admin/delete/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             `;
@@ -398,7 +418,12 @@ $no = 1;
                                     <td>${obj.spek}</td>
                                     <td>${obj.inspection}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editComponent(${obj.kode})" data-toggle="modal" data-target="#editComponent"><i class="fa fa-edit"></i></a>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                            <a class="btn btn-sm btn-primary" onclick="editComponent(${obj.kode})" data-toggle="modal" data-target="#editComponent"><i class="fa fa-edit"></i></a>
+                                        </span>
+                                        @if (auth()->user()->can('delete management group'))
+                                            <a class="btn btn-sm btn-danger"  href="/admin/delete/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             `;
@@ -412,8 +437,13 @@ $no = 1;
                                     <td>${obj.spek}</td>
                                     <td>${obj.inspection}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary" onclick="editPart(${obj.kode})" data-toggle="modal" data-target="#editPart"><i class="fa fa-edit"></i></a>
-                                        <a class="btn btn-sm btn-warning text-white" href="/admin/detail-sub-part/${obj.kode}"><i class="fa fa-eye"></i></a>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                            <a class="btn btn-sm btn-primary" onclick="editPart(${obj.kode})" data-toggle="modal" data-target="#editPart"><i class="fa fa-edit"></i></a>
+                                        </span>
+                                        <a class="btn btn-sm btn-warning text-white" href="/admin/detail-sub-part/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Detail"><i class="fa fa-eye"></i></a>
+                                        @if (auth()->user()->can('delete management group'))
+                                            <a class="btn btn-sm btn-danger"  href="/admin/delete/${obj.kode}" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             `;
@@ -540,6 +570,7 @@ $no = 1;
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Specification</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -548,6 +579,7 @@ $no = 1;
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Specification</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -563,6 +595,7 @@ $no = 1;
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Specification</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -571,6 +604,7 @@ $no = 1;
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Specification</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -702,8 +736,13 @@ $no = 1;
                     '<div class="col-12 addMultiMainGroup">'+
                         '<input type="text" class="form-control mt-2" placeholder="Input Main Group Name" name="main_group[]">'+
                     '</div>'
-                    $('#modal').append(addMultiMainGroup);
+                    $('.append').append(addMultiMainGroup);
                 })
+
+                $('#removeMainGroup').on('click', function(){
+                    $('.addMultiMainGroup').remove()
+                })
+
             }
 
             else if (kode == 'group') {
@@ -711,7 +750,7 @@ $no = 1;
                 $('.createGroup, .specification, .chooseMainGroup').show();
                 $('#specification').summernote();
                 $('.addMultiMainGroup, .addMultiSubGroup, .addMultiSpekSubGroup, .addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit, .addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent, .addMultiPart, .addMultiSpekPart, .addMultiInspectPart').each(function(){
-                    $(this).hide()
+                    $(this).remove()
                 })
 
 
@@ -726,10 +765,14 @@ $no = 1;
                 '</div>'
 
                 $('#addGroup').on('click', function(){
-                    $('#modal').append(addMultiGroup);
+                    $('.append').append(addMultiGroup);
                     $('.spek').each(function(){
                         $(this).summernote()
                     });
+                })
+
+                $('#removeGroup').on('click', function(){
+                    $('.addMultiGroup, .addMultiSpekGroup').remove()
                 })
 
 
@@ -780,10 +823,14 @@ $no = 1;
                     '</div>'
 
                     $('#addSubGroup').on('click', function(){
-                        $('#modal').append(addMultiSubGroup);
+                        $('.append').append(addMultiSubGroup);
                         $('.spek').each(function(){
                             $(this).summernote()
                         });
+                    })
+
+                    $('#removeSubGroup').on('click', function(){
+                        $('.addMultiSubGroup, .addMultiSpekSubGroup').remove()
                     })
             }
             else if (kode == 'unit') {
@@ -859,10 +906,14 @@ $no = 1;
                 '</div>'
 
                 $('#addUnit').on('click', function(){
-                    $('#modal').append(addMultiUnit);
+                    $('.append').append(addMultiUnit);
                     $('.spek, .inspect').each(function(){
                         $(this).summernote()
                     });
+                })
+
+                $('#removeUnit').on('click', function(){
+                    $('.addMultiUnit, .addMultiSpekUnit, .addMultiInspectUnit').remove()
                 })
 
 
@@ -960,10 +1011,14 @@ $no = 1;
                 '</div>'
 
                 $('#addComponent').on('click', function(){
-                    $('#modal').append(addMultiComponent);
+                    $('.append').append(addMultiComponent);
                     $('.spek, .inspect').each(function(){
                         $(this).summernote()
                     });
+                })
+
+                $('#removeComponent').on('click', function(){
+                    $('.addMultiComponent, .addMultiSpekComponent, .addMultiInspectComponent').remove()
                 })
             }
             else {
@@ -1077,10 +1132,14 @@ $no = 1;
                 '</div>'
 
                 $('#addPart').on('click', function(){
-                    $('#modal').append(addMultiPart);
+                    $('.append').append(addMultiPart);
                     $('.spek, .inspect').each(function(){
                         $(this).summernote()
                     });
+                })
+
+                $('#removePart').on('click', function(){
+                    $('.addMultiPart, .addMultiSpekPart, .addMultiInspectPart').remove()
                 })
             }
 

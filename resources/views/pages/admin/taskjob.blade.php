@@ -318,22 +318,27 @@
                                         <td>{{ $t->left_hour == 0 ? $t->interval : $t->left_hour }}</td>
                                         <td>{{ $t->interval == 0 ? '0' : $t->interval . ' Hour' }}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-success" data-toggle="modal"
-                                                data-target="#runningHour"
-                                                onclick="processRunningHour({{ $t->id }}, '{{ $t->kode . '-' . $t->kode . '-' . $t->group->name }}')"><i
-                                                    class="fa fa-clock"></i></a>
+                                            <span data-toggle="tooltip" data-placement="bottom" title="Running Hour Taskjob">
+                                                <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#runningHour" onclick="processRunningHour({{ $t->id }}, '{{ $t->kode . '-' . $t->kode . '-' . $t->group->name }}')">
+                                                    <i class="fa fa-clock"></i>
+                                                </a>
+                                            </span>
+                                            <span data-toggle="tooltip" data-placement="bottom" title="History Taskjob">
                                             <a class="btn btn-sm btn-warning text-white" data-toggle="modal"
                                                 data-target="#historyTaskJob"
                                                 onclick="historyTaskJob({{ $t->log_taskjob }}, '{{ $t->group->name }}')"><i
                                                     class="fa fa-history"></i></a>
+                                            </span>
                                             @if (auth()->user()->can('give permission taskjob'))
+                                            <span data-toggle="tooltip" data-placement="bottom" title="Give Permission Taskjob">
                                                 <a class="btn btn-sm btn-secondary text-white" data-toggle="modal"
                                                     data-target="#giveRole"
                                                     onclick="giveRole({{ $t->id }}, '{{ $t->group->name }}', '{{ auth()->user()->getRoleNames()->first() }}')"><i
                                                         class="fa fa-user"></i></a>
+                                            </span>
                                             @endif
                                             @if (auth()->user()->can('edit taskjob'))
-                                                <a class="btn btn-sm btn-primary"
+                                                <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Taskjob"
                                                     href="{{ route('edit-taskjob', $t->id) }}"><i
                                                         class="fa fa-edit"></i></a>
                                             @endif
@@ -342,7 +347,7 @@
                                                     class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"><i
+                                                    <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Taskjob"><i
                                                             class="fa fa-trash"></i></button>
                                                 </form>
                                             @endif

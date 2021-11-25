@@ -594,7 +594,7 @@
                     $('#inspection_unit').val();
 
                     $('#kode_unit').val(result.kode);
-                    $('#nama_unit').val(result.nama);
+                    $('#nama_unit').val(result.name);
                     $('#spek_unit').summernote("code", result.spek);
                     $('#inspection_unit').summernote("code", result.inspection);
                 }
@@ -618,7 +618,7 @@
                     $('#inspection_component').val();
 
                     $('#kode_component').val(result.kode);
-                    $('#nama_component').val(result.nama);
+                    $('#nama_component').val(result.name);
                     $('#spek_component').summernote("code", result.spek);
                     $('#inspection_component').summernote("code", result.inspection);
                 }
@@ -642,7 +642,7 @@
                     $('#inspection_part').val();
 
                     $('#kode_part').val(result.kode);
-                    $('#nama_part').val(result.nama);
+                    $('#nama_part').val(result.name);
                     $('#spek_part').summernote("code", result.spek);
                     $('#inspection_part').summernote("code", result.inspection);
                 }

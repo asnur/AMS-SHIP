@@ -17,7 +17,7 @@ class GroupController extends Controller
         // dd(Carbon::parse($start_time)->floatDiffInHours($finish_time));
         $main_group = DB::table('group')->select('name', 'kode')
         ->whereRaw('LENGTH(kode) = 1')
-        ->orWhereRaw('LENGTH(kode1) = 2')
+        // ->orWhereRaw('LENGTH(kode1) = 2')
         ->get();
         // dd($main_group->pluck('kode'));
         $group = DB::table('group')->select('name', 'kode', 'kode1')->whereRaw('LENGTH(kode) = 2')->get();
@@ -30,6 +30,7 @@ class GroupController extends Controller
 
     public function create_group(Request $request)
     {
+        // dd($request->all());
         if($request->input('choose') == 'main_group'){
             // $count = count($request->input('main_group'));
             // dd($count);
@@ -37,8 +38,7 @@ class GroupController extends Controller
                 Alert::error('All field Must Be Filled', 'Failed');
                 return redirect()->route('group');
             }
-            $getkode1 = DB::table('group')->select('kode1')->orderBy('id', 'desc')->whereRaw('LENGTH(kode) = 1')->orWhereRaw('LENGTH(kode1) = 2')
-            ->first();
+            $getkode1 = DB::table('group')->select('kode1')->orderBy('id', 'desc')->whereRaw('LENGTH(kode) = 1')->first();
 
             if(is_null($getkode1)){
                 $kode1 = 1;
@@ -54,7 +54,7 @@ class GroupController extends Controller
             $kode5 = str_pad($kode1,9,"0");
             $kode6 = str_pad($kode1,12,"0");
             $name = $request->input('main_group');
-            dd($kode1,$kode2,$kode3,$kode4,$kode5,$kode6,$name);
+            // dd($kode1,$kode2,$kode3,$kode4,$kode5,$kode6,$name);
 
             for($i = 0 ; $i < count($request->input('main_group')) ; $i++){
                 Group::create([
@@ -375,6 +375,143 @@ class GroupController extends Controller
         $data = Group::where('kode', $request->input('kode'))->first();
 
         return json_encode($data);
+    }
+
+    public function delete($kode)
+    {
+        // dd($kode);
+        if (strlen($kode) == 1){
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+            $dataGroup = Group::where('kode2' , '=' , $kode)->whereRaw('LENGTH(kode) = 2')->get();
+
+            if(!$dataGroup->isEmpty() ){
+                $dataGroup->each->delete();
+
+                $dataSubGroup = Group::where('kode3' , '=' , $kode)->whereRaw('LENGTH(kode) = 3')->get();
+
+                if(!$dataSubGroup->isEmpty()){
+                    $dataSubGroup->each->delete();
+
+                    $dataUnit = Group::where('kode4' , '=' , $kode)->whereRaw('LENGTH(kode) = 6')->get();
+
+                    if(!$dataUnit->isEmpty()){
+                        $dataUnit->each->delete();
+
+                        $dataComponent = Group::where('kode5' , '=' , $kode)->whereRaw('LENGTH(kode) = 9')->get();
+
+                        if(!$dataComponent->isEmpty()){
+                            $dataComponent->each->delete();
+
+                            $dataPart = Group::where('kode6' , '=' , $kode)->whereRaw('LENGTH(kode) = 12')->get();
+
+                            if(!$dataPart->isEmpty()){
+                                $dataPart->each->delete();
+                            }
+                        }
+                    }
+                }
+            }
+            Alert::success('Delete Success', 'Success');
+            return redirect()->route('group');
+        }
+
+        elseif (strlen($kode) == 2){
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+            $dataSubGroup = Group::where('kode3' , '=' , $kode)->whereRaw('LENGTH(kode) = 3')->get();
+
+            if(!$dataSubGroup->isEmpty()){
+                $dataSubGroup->each->delete();
+
+                $dataUnit = Group::where('kode4' , '=' , $kode)->whereRaw('LENGTH(kode) = 6')->get();
+
+                if(!$dataUnit->isEmpty()){
+                    $dataUnit->each->delete();
+
+                    $dataComponent = Group::where('kode5' , '=' , $kode)->whereRaw('LENGTH(kode) = 9')->get();
+
+                    if(!$dataComponent->isEmpty()){
+                        $dataComponent->each->delete();
+
+                        $dataPart = Group::where('kode6' , '=' , $kode)->whereRaw('LENGTH(kode) = 12')->get();
+
+                        if(!$dataPart->isEmpty()){
+                            $dataPart->each->delete();
+                        }
+                    }
+                }
+            }
+            Alert::success('Delete Success', 'Success');
+            return redirect()->route('group');
+        }
+
+        elseif (strlen($kode) == 3){
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+            $dataUnit = Group::where('kode4' , '=' , $kode)->whereRaw('LENGTH(kode) = 6')->get();
+
+                if(!$dataUnit->isEmpty()){
+                    $dataUnit->each->delete();
+
+                    $dataComponent = Group::where('kode5' , '=' , $kode)->whereRaw('LENGTH(kode) = 9')->get();
+
+                    if(!$dataComponent->isEmpty()){
+                        $dataComponent->each->delete();
+
+                        $dataPart = Group::where('kode6' , '=' , $kode)->whereRaw('LENGTH(kode) = 12')->get();
+
+                        if(!$dataPart->isEmpty()){
+                            $dataPart->each->delete();
+                        }
+                    }
+                }
+            Alert::success('Delete Success', 'Success');
+            return redirect()->route('group');
+        }
+
+        elseif (strlen($kode) == 6){
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+            $dataComponent = Group::where('kode4' , '=' , $kode)->whereRaw('LENGTH(kode) = 9')->get();
+
+            if(!$dataComponent->isEmpty() ){
+                $dataComponent->each->delete();
+
+                $dataPart = Group::where('kode4' , '=' , $kode)->whereRaw('LENGTH(kode) = 12')->get();
+
+                if(!$dataPart->isEmpty()){
+                    $dataPart->each->delete();
+                }
+            }
+
+            Alert::success('Delete Unit ' .$kode. ' Success', 'Success');
+            return redirect()->route('group');
+
+        }
+
+        elseif (strlen($kode) == 9){
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+            $dataPart = Group::where('kode5' , '=' , $kode)->whereRaw('LENGTH(kode) = 12')->get();
+            // dd($dataChilds);
+            if(!$dataPart->isEmpty()){
+                $dataPart->each->delete();
+            }
+
+            Alert::success('Delete Component ' .$kode. ' Success', 'Success');
+            return redirect()->route('group');
+
+        }
+
+        else{
+            $data = Group::where('kode', $kode)->first();
+            $data->delete();
+
+            Alert::success('Delete Part ' .$kode. ' Success', 'Success');
+            return redirect()->route('group');
+        }
+
     }
 
     public function detail_component(Request $request)
