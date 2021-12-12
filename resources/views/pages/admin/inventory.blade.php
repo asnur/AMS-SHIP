@@ -157,20 +157,20 @@
                                 <table class="table table-striped" id="table">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2">No</th>
-                                            <th rowspan="2">Group</th>
-                                            <th colspan="4" style="text-align:center">Inventory</th>
-                                            <th rowspan="2">Action</th>
-                                        </tr>
-                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
                                             <th>Installed</th>
                                             <th>Used</th>
                                             <th>Reserved</th>
-                                            <th>Ready Stock</th>
+                                            <th>Ready</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($inventory_group as $ig)
+
+                                        {{-- {{ dd($inventory_group->inventory) }} --}}
+                                        {{-- @foreach ($inventory_group as $ig)
+                                            {{$ig->inventory[0]->installed}}
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $ig->name }}</td>
@@ -189,20 +189,38 @@
                                                             class="fa fa-edit"></i></a>
                                                 </td>
                                             </tr>
+                                        @endforeach --}}
+                                        @foreach ($all_inventory as $ig)
+                                            {{-- {{$ig->inventory[0]->installed}} --}}
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $ig->item_code }} - {{ $ig->part->name }}</td>
+                                                <td>{{ $ig->installed }}</td>
+                                                <td>{{ $ig->used }}</td>
+                                                <td>{{ $ig->reserved }}</td>
+                                                <td>{{ $ig->ready }}</td>
+                                                <td>
+                                                    {{-- <a class="btn btn-sm btn-success"
+                                                        onclick="previewItem({{ $ig->id }})"
+                                                        data-target="#previewInventory" data-toggle="modal"><i
+                                                            class="fa fa-eye"></i></a> --}}
+                                                    <a class="btn btn-sm btn-primary"
+                                                        onclick="editInventory({{ $ig->id }})"
+                                                        data-target="#editInventory" data-toggle="modal"><i
+                                                            class="fa fa-edit"></i></a>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th rowspan="2">No</th>
-                                            <th rowspan="2">Group</th>
-                                            <th colspan="4" style="text-align:center">Inventory</th>
-                                            <th rowspan="2">Action</th>
-                                        </tr>
-                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
                                             <th>Installed</th>
                                             <th>Used</th>
                                             <th>Reserved</th>
-                                            <th>Ready Stock</th>
+                                            <th>Ready</th>
+                                            <th>Action</th>
                                         </tr>
                                     </tfoot>
                                 </table>

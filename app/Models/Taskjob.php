@@ -11,9 +11,9 @@ class Taskjob extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    public function group()
+    public function sub_group()
     {
-        return $this->hasOne(Group::class, 'kode', 'kode');
+        return $this->hasOne(SubGroup::class, 'code', 'code');
     }
 
     public function log_taskjob()

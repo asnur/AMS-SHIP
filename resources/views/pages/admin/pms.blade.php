@@ -153,7 +153,7 @@
                                         @foreach ($upcoming as $u)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $u->kode . '-' . $u->group->name }}</td>
+                                                <td>{{ $u->code . '-' . $u->sub_group->name }}</td>
                                                 <td>{!! $u->jobdesk !!}</td>
                                                 <td>{!! $u->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>
@@ -206,14 +206,14 @@
                                         @foreach ($ongoing as $o)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $o->kode . '-' . $o->group->name }}</td>
+                                                <td>{{ $o->code . '-' . $o->sub_group->name }}</td>
                                                 <td>{!! $o->jobdesk !!}</td>
                                                 <td>{!! $o->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-sm btn-primary" data-toggle="modal"
                                                         data-target="#prosesPMS"
-                                                        onclick="prosesPMS({{ $o->id }}, '{{ $o->kode . '-' . $o->group->name }}')"><i
+                                                        onclick="prosesPMS({{ $o->id }}, '{{ $o->code . '-' . $o->sub_group->name }}')"><i
                                                             class="fa fa-cogs"></i></a>
                                                 </td>
                                             </tr>
@@ -253,7 +253,7 @@
                                         @foreach ($finished as $f)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $f->kode . '-' . $f->group->name }}</td>
+                                                <td>{{ $f->code . '-' . $f->sub_group->name }}</td>
                                                 <td>{!! $f->jobdesk !!}</td>
                                                 <td>{!! $f->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                                 </td>

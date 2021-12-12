@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.0.5/css/scroller.dataTables.min.css"> --}}
     <style>
         #categoryFilter {
             display: inline;
@@ -572,79 +573,105 @@
 
         $("#group_list").chained("#main_group_list");
         $("#sub_group_list").chained("#group_list");
-        $("#unit_list")
-            .chained("#sub_group_list");
+        $("#unit_list").chained("#sub_group_list");
         $("#component_list").chained("#unit_list");
         // $("#part_list").chained("#component_list");
 
-        function editUnit(kode) {
+        function editUnit(code) {
             $.ajax({
                 type: 'get',
                 url: "/admin/detail-unit",
                 data: {
-                    kode: kode
+                    code: code
                 },
+
                 dataType: 'json',
                 success: function(response) {
                     let result = response;
-                    console.log(result.kode);
+                    // console.log(result.code);
+                    // console.log(result.images);
+                    html = `<label class="font-weight-bold mt-3">Image</label>
+                            <img src='{{asset('/img/${result.images}')}}' class="rounded mt-3 ml-3" height="250" alt="No Image" id="image_unit">`
                     $('#kode_unit').val();
                     $('#nama_unit').val();
+                    $('#maker_unit').val();
+                    $('#part_number_unit').val();
+                    $('#serial_number_unit').val();
                     $('#spek_unit').val();
-                    $('#inspection_unit').val();
 
-                    $('#kode_unit').val(result.kode);
+                    $('#kode_unit').val(result.code);
                     $('#nama_unit').val(result.name);
-                    $('#spek_unit').summernote("code", result.spek);
-                    $('#inspection_unit').summernote("code", result.inspection);
+                    // $("#image_unit").attr({
+                    //     'src' : "{{asset('/img/"+ result.images +"')}}"
+                    // });
+                    $('.image_unit').html(html);
+                    $('#maker_unit').val(result.maker);
+                    $('#part_number_unit').val(result.part_number);
+                    $('#serial_number_unit').val(result.serial_number);
+                    $('#spek_unit').summernote("code", result.specification);
                 }
             });
         }
 
-        function editComponent(kode) {
+        function editComponent(code) {
             $.ajax({
                 type: 'get',
                 url: "/admin/detail-component",
                 data: {
-                    kode: kode
+                    code: code
                 },
                 dataType: 'json',
                 success: function(response) {
                     let result = response;
-                    console.log(result.kode);
+                    console.log(result.code);
+                    html = `<label class="font-weight-bold mt-3">Image</label>
+                            <img src='{{asset('/img/${result.images}')}}' class="rounded mt-3 ml-3" height="250" alt="No Image" id="image_component">`
                     $('#kode_component').val();
                     $('#nama_component').val();
+                    $('#maker_component').val();
+                    $('#part_number_component').val();
+                    $('#serial_number_component').val();
                     $('#spek_component').val();
-                    $('#inspection_component').val();
 
-                    $('#kode_component').val(result.kode);
+                    $('#kode_component').val(result.code);
                     $('#nama_component').val(result.name);
-                    $('#spek_component').summernote("code", result.spek);
-                    $('#inspection_component').summernote("code", result.inspection);
+                    $('.image_component').html(html);
+                    $('#maker_component').val(result.maker);
+                    $('#part_number_component').val(result.part_number);
+                    $('#serial_number_component').val(result.serial_number);
+                    $('#spek_component').summernote("code", result.specification);
                 }
             });
         }
 
-        function editPart(kode) {
+        function editPart(code) {
             $.ajax({
                 type: 'get',
                 url: "/admin/detail-part",
                 data: {
-                    kode: kode
+                    code: code
                 },
                 dataType: 'json',
                 success: function(response) {
                     let result = response;
-                    console.log(result.kode);
+                    console.log(result.code);
                     $('#kode_part').val();
                     $('#nama_part').val();
+                    $('#maker_component').val();
+                    $('#part_number_component').val();
+                    $('#serial_number_component').val();
                     $('#spek_part').val();
-                    $('#inspection_part').val();
 
-                    $('#kode_part').val(result.kode);
+                    html = `<label class="font-weight-bold mt-3">Image</label>
+                            <img src='{{asset('/img/${result.images}')}}' class="rounded mt-3 ml-3" height="250" alt="No Image" id="image_part">`
+
+                    $('#kode_part').val(result.code);
                     $('#nama_part').val(result.name);
-                    $('#spek_part').summernote("code", result.spek);
-                    $('#inspection_part').summernote("code", result.inspection);
+                    $('.image_part').html(html);
+                    $('#maker_part').val(result.maker);
+                    $('#part_number_part').val(result.part_number);
+                    $('#serial_number_part').val(result.serial_number);
+                    $('#spek_part').summernote("code", result.specification);
                 }
             });
         }
@@ -676,8 +703,30 @@
     @livewireScripts
     <script>
         var table = $('#table').DataTable({
+            deferRender: true,
             responsive: true,
         });
+        // $('#table-inventory').DataTable({
+        //     deferRender: true,
+        //     ajax: 'http://localhost:8000/admin/all-inventory',
+        //     columns: [{
+        //             data: 'item_code'
+        //         },
+        //         {
+        //             data: 'installed' == null ? 'kode' : 'installed'
+        //         },
+        //         {
+        //             data: 'used'
+        //         },
+        //         {
+        //             data: 'reserved'
+        //         },
+        //         {
+        //             data: 'ready'
+        //         }
+        //     ],
+        //     responsive: true,
+        // });
 
         var tmpData = [];
 
@@ -821,6 +870,7 @@
 
         function listTaskJob(item, name) {
             $('#title_group').text(name);
+            // console.log(item);
             var no = 1;
             var html = `
             <table class="table table-striped" id="table-list-taskjob">
@@ -847,7 +897,7 @@
                 html += `
                     <tr>
                         <td>${no++}</td>
-                        <td>${name_taskjob(val.kode)}</td>
+                        <td>${name_taskjob(val.code)}</td>
                         <td>${val.jobdesk}</td>
                         <td>${(val.critical == 1) ? 'critical' : 'No Critical'}</td>
                     </tr>
@@ -1021,7 +1071,7 @@
                         html += `
                         <tr>
                             <td>${index+1}</td>
-                            <td>${res[index].id_item}-${res[index].group.name}</td>
+                            <td>${res[index].item_code}-${res[index].part.name}</td>
                             <td>${(res[index].installed == null) ? 0 : res[index].installed}</td>
                             <td>${(res[index].used == null) ? 0 : res[index].used}</td>
                             <td>${(res[index].reserved == null) ? 0 : res[index].reserved}</td>
@@ -1058,22 +1108,20 @@
             })
         }
 
-        function editInventory(id_group) {
+        function editInventory(id) {
             $.ajax({
                 type: "GET",
                 url: "{{ route('list-inventory') }}",
                 data: {
-                    id_group: id_group
+                    id: id
                 },
                 success: function(res) {
                     console.log(res);
                     $('.editListInventory').html("")
                     var html = `
-                    <input type="text" name="id_group" class="d-none" value="${id_group}">
                     <table class="table table-striped w-100" id="table-editlistinventory">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" style="vertical-align: middle">No</th>
                                     <th rowspan="2" style="vertical-align: middle">Item</th>
                                     <th colspan="4" style="text-align:center">Inventory</th>
                                     <th rowspan="2" style="vertical-align:middle">Note</th>
@@ -1087,38 +1135,37 @@
                             </thead>
                             <tbody>
                     `
-                    for (let index = 0; index < res.length; index++) {
+                    // for (let index = 0; index < res.length; index++) {
                         html += `
                         <tr>
-                            <td>${index+1}</td>
+
                             <td>
-                                ${res[index].id_item}-${res[index].group.name}
-                                <input type="text" name="id_item[]" class="d-none" value="${res[index].id_item}">
+                                ${res.item_code}-${res.part.name}
+                                <input type="text" name="id_item[]" class="d-none" value="${res.item_code}">
                             </td>
                             <td>
-                                <input type="number" name="installed[]" class="form-control" value="${(res[index].installed == null) ? 0 : res[index].installed}">
+                                <input type="number" name="installed[]" class="form-control" value="${(res.installed == null) ? 0 : res.installed}">
                             </td>
                             <td>
-                                <input type="number" name="used[]" class="form-control" value="${(res[index].used == null) ? 0 : res[index].used}">
+                                <input type="number" name="used[]" class="form-control" value="${(res.used == null) ? 0 : res.used}">
                             </td>
                             <td>
-                                <input type="number" name="reserved[]"" class="form-control" value="${(res[index].reserved == null) ? 0 : res[index].reserved}">
+                                <input type="number" name="reserved[]"" class="form-control" value="${(res.reserved == null) ? 0 : res.reserved}">
                             </td>
                             <td>
-                                <input type="number" name="ready[]" class="form-control" value="${(res[index].ready == null) ? 0 : res[index].ready}">
+                                <input type="number" name="ready[]" class="form-control" value="${(res.ready == null) ? 0 : res.ready}">
                             </td>
                             <td>
-                                <textarea class="form-control" name="note[]" rows="6">${res[index].note}</textarea>
+                                <textarea class="form-control" name="note[]" rows="6">${res.note}</textarea>
                             </td>
                         </tr>
                         `;
-                    }
+                    // }
 
                     html += `
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th rowspan="2" style="vertical-align: middle">No</th>
                                     <th rowspan="2" style="vertical-align: middle">Item</th>
                                     <th>Installed</th>
                                     <th>Used</th>
@@ -1134,9 +1181,9 @@
 
                     $('.editListInventory').html(html)
 
-                    $('#table-editlistinventory').DataTable({
-                        responsive: true,
-                    });
+                    // $('#table-editlistinventory').DataTable({
+                    //     responsive: true,
+                    // });
                 }
             })
         }

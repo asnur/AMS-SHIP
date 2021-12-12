@@ -13,9 +13,9 @@ class PMSController extends Controller
 
     public function index()
     {
-        $upcoming = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'upcoming')->get();
-        $ongoing = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'ongoing')->get();
-        $finished = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'finished')->get();
+        $upcoming = Taskjob::with(['sub_group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'upcoming')->get();
+        $ongoing = Taskjob::with(['sub_group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'ongoing')->get();
+        $finished = Taskjob::with(['sub_group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->where('pms', 'finished')->get();
         // ddd($upcoming);
         return view('pages.admin.pms', compact(['ongoing', 'upcoming', 'finished']));
     }

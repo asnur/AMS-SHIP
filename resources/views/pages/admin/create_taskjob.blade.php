@@ -24,9 +24,9 @@
                                     <div class="col-12">
                                         @csrf
                                         <label for="kode" class="font-weight-bold">Code Name</label>
-                                        <select class="form-control" name="kode" id="kode" required>
-                                            @foreach ($group as $g)
-                                                <option value="{{ $g->kode }}">{{ $g->kode . '-' . $g->name }}</option>
+                                        <select class="form-control" name="code" id="kode" required>
+                                            @foreach ($sub_group as $g)
+                                                <option value="{{ $g->code }}">{{ $g->code . '-' . $g->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -3,14 +3,16 @@ $no = 1;
 ?>
 
 <div>
-    <input type="text" id="selectedValueGroup" name="group" class="d-none">
+    <input type="text" id="selectedValueUnit" name="unit" class="d-none">
+    <input type="text" id="selectedValueComponent" name="component" class="d-none">
+    <input type="text" id="selectedValuePart" name="part" class="d-none">
     <div class="row">
         <div class="col-4" wire:ignore>
             <label class="font-weight-bold">Main Group</label>
             <select id="selectedMainGroup" class="form-control" style="width: 100% !important">
                 <option value=""> --- Choose Main Group --- </option>
                 @foreach ($main_group as $mg)
-                    <option value="{{ $mg->kode }}">{{ $mg->kode }}-{{ $mg->name }}
+                    <option value="{{ $mg->id }}">{{ $mg->code }}-{{ $mg->name }}
                     </option>
                 @endforeach
             </select><br>
@@ -132,7 +134,7 @@ $no = 1;
             }
             $.each(data, function() {
                 $('#selectedGroup').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    `<option value="${this.id}">${this.code}-${this.name}</option>`)
             })
         })
 
@@ -161,7 +163,7 @@ $no = 1;
             }
             $.each(data, function() {
                 $('#selectedSubGroup').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    `<option value="${this.id}">${this.code}-${this.name}</option>`)
             })
         })
 
@@ -187,7 +189,7 @@ $no = 1;
             }
             $.each(data, function() {
                 $('#selectedUnit').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    `<option value="${this.id}">${this.code}-${this.name}</option>`)
             })
         })
 
@@ -212,7 +214,7 @@ $no = 1;
             }
             $.each(data, function() {
                 $('#selectedComponent').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    `<option value="${this.id}">${this.code}-${this.name}</option>`)
             })
         })
 
@@ -235,7 +237,7 @@ $no = 1;
             }
             $.each(data, function() {
                 $('#selectedPart').append(
-                    `<option value="${this.kode}">${this.kode}-${this.name}</option>`)
+                    `<option value="${this.id}">${this.code}-${this.name}</option>`)
             })
         })
 
@@ -250,26 +252,32 @@ $no = 1;
 
         $('.selected-inventory:eq(0)').change(function() {
             if ($(this).prop('checked') == true) {
-                $('#selectedValueGroup').val($('#selectedUnit').val())
-                console.log($('#selectedValueGroup').val())
+                $('#selectedValueUnit').val($('#selectedUnit').val())
+                $('#selectedValueComponent').val("")
+                $('#selectedValuePart').val("")
+                console.log($('#selectedValueUnit').val())
             } else {
-                console.log($('#selectedValueGroup').val())
+                console.log($('#selectedValueUnit').val())
             }
         })
         $('.selected-inventory:eq(1)').change(function() {
             if ($(this).prop('checked') == true) {
-                $('#selectedValueGroup').val($('#selectedComponent').val())
-                console.log($('#selectedValueGroup').val())
+                $('#selectedValueUnit').val("")
+                $('#selectedValueComponent').val($('#selectedComponent').val())
+                $('#selectedValuePart').val("")
+                console.log($('#selectedValueComponent').val())
             } else {
-                console.log($('#selectedValueGroup').val())
+                console.log($('#selectedValueComponent').val())
             }
         })
         $('.selected-inventory:eq(2)').change(function() {
             if ($(this).prop('checked') == true) {
-                $('#selectedValueGroup').val($('#selectedPart').val())
-                console.log($('#selectedValueGroup').val())
+                $('#selectedValueUnit').val("")
+                $('#selectedValueComponent').val("")
+                $('#selectedValuePart').val($('#selectedPart').val())
+                console.log($('#selectedValuePart').val())
             } else {
-                console.log($('#selectedValueGroup').val())
+                console.log($('#selectedValuePart').val())
             }
         })
     </script>

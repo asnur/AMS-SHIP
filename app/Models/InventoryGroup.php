@@ -11,4 +11,9 @@ class InventoryGroup extends Model
     protected $table = 'inventory_group';
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function inventory()
+    {
+        return $this->hasMany(Inventory::class, 'inventory_group_id');
+    }
 }

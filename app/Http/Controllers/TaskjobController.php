@@ -6,6 +6,7 @@ use App\Models\Freq;
 use Illuminate\Http\Request;
 use App\Models\Taskjob;
 use App\Models\Group;
+use App\Models\SubGroup;
 use App\Models\LogTaskJob;
 use App\Models\TaskjobGroup;
 use Carbon\Carbon;
@@ -31,27 +32,32 @@ class TaskjobController extends Controller
         $taskjob = [];
 
         if (Auth::user()->can('give permission taskjob')) {
-            $taskjob = Taskjob::with(['group', 'log_taskjob'])->get();
+            $taskjob = Taskjob::with(['sub_group', 'log_taskjob'])->get();
         } else {
-            $taskjob = Taskjob::with(['group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->get();
+            $taskjob = Taskjob::with(['sub_group', 'log_taskjob'])->where('role', Auth::user()->getRoleNames()->first())->get();
         }
         $group = TaskjobGroup::with('count_taskjob')->get();
         $roles = Role::get();
+        // foreach($taskjob as $task){
+        //     dd($task->sub_group);
+
+        // }
 
         return view('pages.admin.taskjob', compact(['taskjob', 'group', 'roles']));
     }
 
     public function create()
     {
-        $group = Group::select('kode', 'name')->whereRaw('LENGTH(kode) = 3')->get();
+        $sub_group = SubGroup::select('code', 'name')->get();
         $freq = Freq::get();
         $group_taskjob = TaskjobGroup::get();
 
-        return view('pages.admin.create_taskjob', compact(['group', 'freq', 'group_taskjob']));
+        return view('pages.admin.create_taskjob', compact(['sub_group', 'freq', 'group_taskjob']));
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $data = $request->all();
         if ($data['due_date'] == '') {
             $interval = "+" . $data['freq'] . " " . $data['id_freq'];
@@ -70,7 +76,7 @@ class TaskjobController extends Controller
     public function edit(int $id)
     {
         $taskjob = Taskjob::find($id);
-        $group = Group::select('kode', 'name')->whereRaw('LENGTH(kode) = 3')->get();
+        $group = SubGroup::select('code', 'name')->get();
         $freq = Freq::get();
         $group_taskjob = TaskjobGroup::get();
 
@@ -79,6 +85,7 @@ class TaskjobController extends Controller
 
     public function update(Request $request)
     {
+
         $input = $request->all();
         $data = Taskjob::find($input['id']);
         $left_hour = 0;

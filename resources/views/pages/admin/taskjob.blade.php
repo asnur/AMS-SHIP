@@ -304,7 +304,7 @@
                                 @foreach ($taskjob as $t)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $t->kode . '-' . $t->group->name }}</td>
+                                        <td>{{ $t->code . '-' . $t->sub_group->name }}</td>
                                         <td>{!! $t->jobdesk !!}</td>
                                         <td>{!! $t->critical == 0 ? '<label class="badge badge-success p-2">No-Critical</label>' : '<label class="badge badge-danger p-2">Critical !!!</label>' !!}
                                         </td>
@@ -319,21 +319,21 @@
                                         <td>{{ $t->interval == 0 ? '0' : $t->interval . ' Hour' }}</td>
                                         <td>
                                             <span data-toggle="tooltip" data-placement="bottom" title="Running Hour Taskjob">
-                                                <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#runningHour" onclick="processRunningHour({{ $t->id }}, '{{ $t->kode . '-' . $t->kode . '-' . $t->group->name }}')">
+                                                <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#runningHour" onclick="processRunningHour({{ $t->id }}, '{{ $t->code . '-' . $t->code . '-' . $t->sub_group->name }}')">
                                                     <i class="fa fa-clock"></i>
                                                 </a>
                                             </span>
                                             <span data-toggle="tooltip" data-placement="bottom" title="History Taskjob">
                                             <a class="btn btn-sm btn-warning text-white" data-toggle="modal"
                                                 data-target="#historyTaskJob"
-                                                onclick="historyTaskJob({{ $t->log_taskjob }}, '{{ $t->group->name }}')"><i
+                                                onclick="historyTaskJob({{ $t->log_taskjob }}, '{{ $t->sub_group->name }}')"><i
                                                     class="fa fa-history"></i></a>
                                             </span>
                                             @if (auth()->user()->can('give permission taskjob'))
                                             <span data-toggle="tooltip" data-placement="bottom" title="Give Permission Taskjob">
                                                 <a class="btn btn-sm btn-secondary text-white" data-toggle="modal"
                                                     data-target="#giveRole"
-                                                    onclick="giveRole({{ $t->id }}, '{{ $t->group->name }}', '{{ auth()->user()->getRoleNames()->first() }}')"><i
+                                                    onclick="giveRole({{ $t->id }}, '{{ $t->sub_group->name }}', '{{ auth()->user()->getRoleNames()->first() }}')"><i
                                                         class="fa fa-user"></i></a>
                                             </span>
                                             @endif
